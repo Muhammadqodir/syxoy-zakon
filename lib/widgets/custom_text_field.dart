@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 
 class CustomTextField extends StatefulWidget {
+  final TextStyle hintStyle;
   final String hint;
   final TextEditingController controller;
   final Color baseColor;
@@ -14,19 +15,19 @@ class CustomTextField extends StatefulWidget {
   final Function(String) onChanged;
   EdgeInsets margin = const EdgeInsets.all(0);
 
-  CustomTextField({
-    this.hint = "",
-    required this.controller,
-    required this.onChanged,
-    this.baseColor = Colors.black12,
-    this.errorColor = Colors.red,
-    this.textAlign = TextAlign.start,
-    this.inputFormatter = const [],
-    this.inputType = TextInputType.text,
-    this.borderRadius = const BorderRadius.all(Radius.circular(12)),
-    this.obscureText = false,
-    this.margin = const EdgeInsets.all(0),
-  });
+  CustomTextField(
+      {this.hint = "",
+      required this.controller,
+      required this.onChanged,
+      this.baseColor = Colors.black12,
+      this.errorColor = Colors.red,
+      this.textAlign = TextAlign.start,
+      this.inputFormatter = const [],
+      this.inputType = TextInputType.text,
+      this.borderRadius = const BorderRadius.all(Radius.circular(12)),
+      this.obscureText = false,
+      this.margin = const EdgeInsets.all(0),
+      required this.hintStyle});
 
   _CustomTextFieldState createState() => _CustomTextFieldState();
 }
@@ -62,6 +63,7 @@ class _CustomTextFieldState extends State<CustomTextField> {
               contentPadding: const EdgeInsets.all(0),
               border: InputBorder.none,
               hintText: widget.hint,
+              hintStyle: widget.hintStyle,
             ),
           ),
         ),

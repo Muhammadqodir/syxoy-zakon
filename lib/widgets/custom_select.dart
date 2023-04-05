@@ -64,8 +64,13 @@ class _CustomSelectState extends State<CustomSelect> {
                   ),
                 ),
                 widget.items.isEmpty
-                    ? const CupertinoActivityIndicator(radius: 12,)
-                    : const Icon(CupertinoIcons.chevron_down, size: 24,)
+                    ? const CupertinoActivityIndicator(
+                        radius: 12,
+                      )
+                    : const Icon(
+                        CupertinoIcons.chevron_down,
+                        size: 24,
+                      )
               ],
             ),
           ),

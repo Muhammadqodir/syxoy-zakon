@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:flutter/services.dart';
 import 'package:suxoy_zakon/utils.dart';
 
 const primaryColor = Color(0xFF00B06C);
@@ -50,19 +49,19 @@ ThemeData lightTheme = ThemeData(
     ),
     headlineSmall: TextStyle(
       color: Colors.black87,
-      fontFamily: "FlayfairDisplay",
+      fontFamily: "PlayfairDisplay",
       fontWeight: FontWeight.w400,
       fontSize: 12,
     ),
     headlineMedium: TextStyle(
       color: Colors.black87,
-      fontFamily: "FlayfairDisplay",
+      fontFamily: "PlayfairDisplay",
       fontWeight: FontWeight.w400,
       fontSize: 16,
     ),
     headlineLarge: TextStyle(
       color: Colors.black87,
-      fontFamily: "FlayfairDisplay",
+      fontFamily: "PlayfairDisplay",
       fontWeight: FontWeight.bold,
       fontSize: 24,
     ),
