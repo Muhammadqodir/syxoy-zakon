@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:suxoy_zakon/pages/basket_page.dart';
-import 'package:suxoy_zakon/pages/empty_order.dart';
+import 'package:suxoy_zakon/pages/empty_order_page.dart';
 import 'package:suxoy_zakon/pages/food_description_page.dart';
 import 'package:suxoy_zakon/pages/main_page.dart';
 import 'package:suxoy_zakon/pages/menu_page.dart';
@@ -83,11 +83,12 @@ class _MyHomePageState extends State<MyHomePage> {
                         ),
                         child: Text(
                           "Код страны",
-                          style: TextStyle(
-                            fontFamily: 'Montserrat-light',
-                            fontSize: 15,
-                            color: Theme.of(context).shadowColor,
-                          ),
+                          style:
+                              Theme.of(context).textTheme.bodyMedium!.copyWith(
+                                    fontSize: 15,
+                                    color: Theme.of(context).shadowColor,
+                                    fontFamily: "Montserrat-light",
+                                  ),
                         ),
                       ),
                     ),
@@ -139,11 +140,11 @@ class _MyHomePageState extends State<MyHomePage> {
                 ),
                 child: Text(
                   "Мы позвоним или напишем вам,чтобы подтвердить ваш номер. Вы получите код.Пожалуйста никому не сообщайте его!",
-                  style: TextStyle(
-                    fontFamily: "Montserrat-light",
-                    fontSize: 15,
-                    color: Theme.of(context).shadowColor,
-                  ),
+                  style: Theme.of(context).textTheme.bodyMedium!.copyWith(
+                        fontFamily: "Montserrat-light",
+                        fontSize: 15,
+                        color: Theme.of(context).shadowColor,
+                      ),
                 ),
               ),
             ),
@@ -164,11 +165,11 @@ class _MyHomePageState extends State<MyHomePage> {
                 onPressed: () {},
                 child: Text(
                   "Посмотреть меню",
-                  style: TextStyle(
-                    fontFamily: "Montserrat-light",
-                    fontSize: 14,
-                    color: Theme.of(context).shadowColor,
-                  ),
+                  style: Theme.of(context).textTheme.bodyMedium!.copyWith(
+                        fontFamily: "Montserrat-light",
+                        fontSize: 15,
+                        color: Theme.of(context).shadowColor,
+                      ),
                 ),
               ),
             ),

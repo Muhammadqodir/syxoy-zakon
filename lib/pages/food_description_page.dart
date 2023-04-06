@@ -57,13 +57,13 @@ class _FoodDescriptionPageState extends State<FoodDescriptionPage> {
             ),
             Column(
               children: [
-                const Text(
+                Text(
                   "Блинчик с ветчиной и сыром",
                   textAlign: TextAlign.center,
-                  style: TextStyle(
-                    fontFamily: "PlayfairBold",
-                    fontSize: 31,
-                  ),
+                  style: Theme.of(context)
+                      .textTheme
+                      .bodyLarge!
+                      .copyWith(fontFamily: "PlayfairBold"),
                 ),
                 const SizedBox(
                   height: 24,
@@ -76,17 +76,19 @@ class _FoodDescriptionPageState extends State<FoodDescriptionPage> {
                   padding: const EdgeInsets.only(top: 55, right: 280),
                   child: Text(
                     "Состав",
-                    style: TextStyle(
-                      fontFamily: "PlayfairBold",
-                      fontSize: 20,
-                    ),
+                    style: Theme.of(context).textTheme.bodyLarge!.copyWith(
+                          fontFamily: "PlayfairBold",
+                          fontSize: 20,
+                        ),
                   ),
                 ),
                 Padding(
                   padding: const EdgeInsets.only(top: 25, left: 5, right: 15),
                   child: Text(
                     "Ветчина куриная,плавленный сыр,зелень",
-                    style: TextStyle(fontFamily: "Montserrat-light"),
+                    style: Theme.of(context).textTheme.bodyMedium!.copyWith(
+                          fontFamily: "Montserrat-light",
+                        ),
                   ),
                 ),
                 Padding(
