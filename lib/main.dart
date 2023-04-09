@@ -18,6 +18,7 @@ import 'package:suxoy_zakon/widgets/custom_btn.dart';
 import 'package:suxoy_zakon/widgets/custom_select.dart';
 import 'package:suxoy_zakon/widgets/custom_text_field.dart';
 
+//this is test line
 void main() {
   runApp(const MyApp());
 }
