@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:suxoy_zakon/pages/onboarding_page.dart';
+import 'package:suxoy_zakon/pages/register_page.dart';
 import 'package:suxoy_zakon/pages/splash_page.dart';
 import 'package:suxoy_zakon/theme.dart';
 import 'package:suxoy_zakon/widgets/custom_btn.dart';
@@ -19,7 +20,7 @@ class MyApp extends StatelessWidget {
       theme: lightTheme,
       themeMode: ThemeMode.light,
       debugShowCheckedModeBanner: false,
-      home: OnboardingPage(),
+      home: RegisterPage(),
     );
   }
 }

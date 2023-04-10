@@ -13,6 +13,7 @@ class CustomTextField extends StatefulWidget {
   List<TextInputFormatter> inputFormatter;
   final Function(String) onChanged;
   EdgeInsets margin = const EdgeInsets.all(0);
+  EdgeInsets padding = const EdgeInsets.all(0);
 
   CustomTextField({
     this.hint = "",
@@ -26,6 +27,7 @@ class CustomTextField extends StatefulWidget {
     this.borderRadius = const BorderRadius.all(Radius.circular(12)),
     this.obscureText = false,
     this.margin = const EdgeInsets.all(0),
+    this.padding = const EdgeInsets.symmetric(horizontal: 10.0, vertical: 12),
   });
 
   _CustomTextFieldState createState() => _CustomTextFieldState();
@@ -50,7 +52,7 @@ class _CustomTextFieldState extends State<CustomTextField> {
           borderRadius: widget.borderRadius,
         ),
         child: Padding(
-          padding: const EdgeInsets.symmetric(horizontal: 10.0, vertical: 0),
+          padding: widget.padding,
           child: TextField(
             obscureText: widget.obscureText,
             onChanged: widget.onChanged,
@@ -61,6 +63,7 @@ class _CustomTextFieldState extends State<CustomTextField> {
             decoration: InputDecoration(
               contentPadding: const EdgeInsets.all(0),
               border: InputBorder.none,
+              isDense: true,
               hintText: widget.hint,
             ),
           ),

@@ -13,6 +13,7 @@ class CustomSelect extends StatefulWidget {
   final Function(int) onChanged;
   Color baseColor;
   EdgeInsets margin = const EdgeInsets.all(0);
+  EdgeInsets padding = const EdgeInsets.all(0);
 
   CustomSelect({
     this.hint = "",
@@ -22,6 +23,7 @@ class CustomSelect extends StatefulWidget {
     this.baseColor = Colors.black12,
     this.borderRadius = const BorderRadius.all(Radius.circular(12)),
     this.margin = const EdgeInsets.all(0),
+    this.padding = const EdgeInsets.symmetric(horizontal: 10.0, vertical: 12),
   });
 
   _CustomSelectState createState() => _CustomSelectState();
@@ -36,7 +38,11 @@ class _CustomSelectState extends State<CustomSelect> {
   void initState() {
     super.initState();
     currentColor = widget.baseColor;
-    selectedIndex = -1;
+    if(widget.items.isNotEmpty){
+      selectedIndex = 0;
+    }else{
+      selectedIndex = -1;
+    }
   }
 
   @override
@@ -52,7 +58,7 @@ class _CustomSelectState extends State<CustomSelect> {
             borderRadius: widget.borderRadius,
           ),
           child: Padding(
-            padding: const EdgeInsets.symmetric(horizontal: 10.0, vertical: 12),
+            padding: widget.padding,
             child: Row(
               children: [
                 Expanded(
@@ -60,12 +66,12 @@ class _CustomSelectState extends State<CustomSelect> {
                     selectedIndex >= 0 && widget.items.isNotEmpty
                         ? widget.items[selectedIndex]
                         : widget.hint,
-                    style: Theme.of(context).textTheme.titleMedium,
+                    style: Theme.of(context).textTheme.titleLarge,
                   ),
                 ),
                 widget.items.isEmpty
                     ? const CupertinoActivityIndicator(radius: 12,)
-                    : const Icon(CupertinoIcons.chevron_down, size: 24,)
+                    : const Icon(CupertinoIcons.chevron_down, size: 18,)
               ],
             ),
           ),
