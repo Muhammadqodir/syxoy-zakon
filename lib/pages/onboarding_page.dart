@@ -1,4 +1,7 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_svg/svg.dart';
+import 'package:suxoy_zakon/theme.dart';
+import 'package:suxoy_zakon/widgets/custom_btn.dart';
 
 class OnboardingPage extends StatelessWidget {
   const OnboardingPage({super.key});
@@ -7,10 +10,39 @@ class OnboardingPage extends StatelessWidget {
   Widget build(BuildContext context) {
     return Scaffold(
       body: Center(
-        child: Column(
-          children: [
-            // Image.asset("assets/hamburger.svg")
-          ],
+        child: Padding(
+          padding: const EdgeInsets.all(24),
+          child: Column(
+            crossAxisAlignment: CrossAxisAlignment.center,
+            mainAxisAlignment: MainAxisAlignment.center,
+            children: [
+              SvgPicture.asset(
+                "assets/hamburger.svg",
+              ),
+              Text(
+                "Хочешь кушать?",
+                style: Theme.of(context).textTheme.titleLarge,
+              ),
+              const SizedBox(
+                height: 12,
+              ),
+              Text(
+                "Тогда ты по адресу, быстрее проходи регистрацию и выбирай вкусную еду.",
+                style: Theme.of(context)
+                    .textTheme
+                    .bodyMedium!
+                    .copyWith(color: textColor.withOpacity(0.8)),
+                textAlign: TextAlign.center,
+              ),
+              const SizedBox(
+                height: 32,
+              ),
+              CustomBtn(
+                onTap: () {},
+                text: "Начать",
+              ),
+            ],
+          ),
         ),
       ),
     );

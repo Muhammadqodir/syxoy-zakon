@@ -5,6 +5,7 @@ import 'package:suxoy_zakon/utils.dart';
 const primaryColor = Color(0xFF00B06C);
 const colorAccent = Color(0xFFE1F2F0);
 const lightGray = Color(0xFFcccccc);
+const textColor = Color(0xFF444444);
 
 ThemeData lightTheme = ThemeData(
   tabBarTheme: const TabBarTheme(
