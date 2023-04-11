@@ -1,9 +1,33 @@
+import 'dart:developer';
+
 import 'package:flutter/material.dart';
+import 'package:mask_text_input_formatter/mask_text_input_formatter.dart';
+import 'package:suxoy_zakon/models/form_data.dart';
 import 'package:suxoy_zakon/widgets/custom_select.dart';
 import 'package:suxoy_zakon/widgets/custom_text_field.dart';
 
 class RegisterForm extends StatefulWidget {
-  const RegisterForm({super.key});
+  RegisterForm({super.key});
+
+  final phoneController = TextEditingController();
+
+  bool isLoading = false;
+  String getPhone() {
+    return phoneController.text
+        .replaceAll("-", "")
+        .replaceAll("(", "")
+        .replaceAll(")", "")
+        .replaceAll(" ", "");
+  }
+
+  FormDataModel validateForm(){
+    String phone = getPhone();
+    log(phone.length.toString());
+    if(phone.length != 12){
+      return FormDataModel.inValid(message: "Неверный формат номера телефона");
+    }
+    return FormDataModel(data: phone);
+  }
 
   @override
   State<RegisterForm> createState() => _RegisterFormState();
@@ -49,9 +73,17 @@ class _RegisterFormState extends State<RegisterForm> {
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
                 CustomTextField(
-                  controller: TextEditingController(),
+                  controller: widget.phoneController,
                   onChanged: (v) {},
                   hint: "Номер телефона",
+                  inputFormatter: [
+                  MaskTextInputFormatter(
+                    mask: '+7 (###) ###-##-##',
+                    filter: {"#": RegExp(r'[0-9]')},
+                    type: MaskAutoCompletionType.lazy,
+                  )
+                ],
+                inputType: TextInputType.phone,
                   padding: const EdgeInsets.all(0),
                   baseColor: Theme.of(context).scaffoldBackgroundColor,
                 )
