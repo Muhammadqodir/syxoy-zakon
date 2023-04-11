@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:suxoy_zakon/pages/confirmation_page.dart';
+import 'package:suxoy_zakon/pages/main_page.dart';
 import 'package:suxoy_zakon/pages/onboarding_page.dart';
 import 'package:suxoy_zakon/pages/register_page.dart';
 import 'package:suxoy_zakon/pages/splash_page.dart';
@@ -21,7 +22,7 @@ class MyApp extends StatelessWidget {
       theme: lightTheme,
       themeMode: ThemeMode.light,
       debugShowCheckedModeBanner: false,
-      home: ConfirmationPage(),
+      home: MainPage(),
     );
   }
 }

@@ -8,6 +8,8 @@ class CustomTextField extends StatefulWidget {
   final Color errorColor;
   final TextInputType inputType;
   final TextAlign textAlign;
+  final Widget? prefix;
+  final TextStyle? textStyle;
   final bool obscureText;
   BorderRadius borderRadius;
   List<TextInputFormatter> inputFormatter;
@@ -23,6 +25,8 @@ class CustomTextField extends StatefulWidget {
     this.errorColor = Colors.red,
     this.textAlign = TextAlign.start,
     this.inputFormatter = const [],
+    this.prefix,
+    this.textStyle,
     this.inputType = TextInputType.text,
     this.borderRadius = const BorderRadius.all(Radius.circular(12)),
     this.obscureText = false,
@@ -53,19 +57,35 @@ class _CustomTextFieldState extends State<CustomTextField> {
         ),
         child: Padding(
           padding: widget.padding,
-          child: TextField(
-            obscureText: widget.obscureText,
-            onChanged: widget.onChanged,
-            inputFormatters: widget.inputFormatter,
-            textAlign: widget.textAlign,
-            keyboardType: widget.inputType,
-            controller: widget.controller,
-            decoration: InputDecoration(
-              contentPadding: const EdgeInsets.all(0),
-              border: InputBorder.none,
-              isDense: true,
-              hintText: widget.hint,
-            ),
+          child: Row(
+            children: [
+              if (widget.prefix != null)
+                Row(
+                  children: [
+                    widget.prefix!,
+                    const SizedBox(
+                      width: 8,
+                    ),
+                  ],
+                ),
+              Expanded(
+                child: TextField(
+                  obscureText: widget.obscureText,
+                  onChanged: widget.onChanged,
+                  inputFormatters: widget.inputFormatter,
+                  textAlign: widget.textAlign,
+                  style: widget.textStyle ?? Theme.of(context).textTheme.titleMedium,
+                  keyboardType: widget.inputType,
+                  controller: widget.controller,
+                  decoration: InputDecoration(
+                    contentPadding: const EdgeInsets.all(0),
+                    border: InputBorder.none,
+                    isDense: true,
+                    hintText: widget.hint,
+                  ),
+                ),
+              ),
+            ],
           ),
         ),
       ),

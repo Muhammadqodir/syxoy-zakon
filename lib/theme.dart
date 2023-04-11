@@ -51,20 +51,17 @@ ThemeData lightTheme = ThemeData(
     ),
     headlineSmall: TextStyle(
       color: Colors.black87,
-      fontFamily: "FlayfairDisplay",
-      fontWeight: FontWeight.w400,
+      fontFamily: "PlayfairDisplayBold",
       fontSize: 12,
     ),
     headlineMedium: TextStyle(
       color: Colors.black87,
-      fontFamily: "FlayfairDisplay",
-      fontWeight: FontWeight.w400,
+      fontFamily: "PlayfairDisplayBold",
       fontSize: 16,
     ),
     headlineLarge: TextStyle(
       color: Colors.black87,
-      fontFamily: "FlayfairDisplay",
-      fontWeight: FontWeight.bold,
+      fontFamily: "PlayfairDisplayBold",
       fontSize: 24,
     ),
   ),
