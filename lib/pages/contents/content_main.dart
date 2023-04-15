@@ -8,6 +8,7 @@ import 'package:suxoy_zakon/widgets/custom_btn.dart';
 import 'package:suxoy_zakon/widgets/custom_tabs.dart';
 import 'package:suxoy_zakon/widgets/custom_text_field.dart';
 import 'package:suxoy_zakon/widgets/menu_position.dart';
+import 'package:suxoy_zakon/widgets/static_grid.dart';
 
 class ContentMain extends StatefulWidget {
   const ContentMain({super.key});
@@ -104,41 +105,47 @@ class _ContentMainState extends State<ContentMain> {
                   const SizedBox(
                     height: 12,
                   ),
-                  Padding(
+                  StaticGrid(
+                    gap: 12,
                     padding: const EdgeInsets.symmetric(horizontal: 24),
-                    child: Column(
-                      children: [
-                        Row(
-                          children: [
-                            Expanded(
-                              child: MenuPosition(
-                                position: MenuItem(
-                                  title: "Блинчик с ветчиной и сыром",
-                                  desc: "Блинчик с ветчиной и сыром",
-                                  imageUrl:
-                                      "https://www.eatthis.com/wp-content/uploads/sites/4//media/images/ext/982583865/cheeseburgers.jpg?quality=82&strip=1",
-                                  price: "299",
-                                ),
-                              ),
-                            ),
-                            const SizedBox(
-                              width: 12,
-                            ),
-                            Expanded(
-                              child: MenuPosition(
-                                position: MenuItem(
-                                  title: "Блинчик с ветчиной и сыром",
-                                  desc: "Блинчик с ветчиной и сыром",
-                                  imageUrl:
-                                      "https://i.pinimg.com/564x/8d/31/2c/8d312ca14b4bbbfbd7ed52d6f51fc371.jpg",
-                                  price: "299",
-                                ),
-                              ),
-                            ),
-                          ],
+                    children: [
+                      MenuPosition(
+                        position: MenuItem(
+                          title: "Блинчик с ветчиной и сыром",
+                          desc: "Блинчик с ветчиной и сыром",
+                          imageUrl:
+                              "https://www.eatthis.com/wp-content/uploads/sites/4//media/images/ext/982583865/cheeseburgers.jpg?quality=82&strip=1",
+                          price: "299",
                         ),
-                      ],
-                    ),
+                      ),
+                      MenuPosition(
+                        position: MenuItem(
+                          title: "Блинчик с ветчиной и сыром",
+                          desc: "Блинчик с ветчиной и сыром",
+                          imageUrl:
+                              "https://www.eatthis.com/wp-content/uploads/sites/4//media/images/ext/982583865/cheeseburgers.jpg?quality=82&strip=1",
+                          price: "299",
+                        ),
+                      ),
+                      MenuPosition(
+                        position: MenuItem(
+                          title: "Блинчик с ветчиной и сыром",
+                          desc: "Блинчик с ветчиной и сыром",
+                          imageUrl:
+                              "https://www.eatthis.com/wp-content/uploads/sites/4//media/images/ext/982583865/cheeseburgers.jpg?quality=82&strip=1",
+                          price: "299",
+                        ),
+                      ),
+                      MenuPosition(
+                        position: MenuItem(
+                          title: "Блинчик с ветчиной и сыром",
+                          desc: "Блинчик с ветчиной и сыром",
+                          imageUrl:
+                              "https://www.eatthis.com/wp-content/uploads/sites/4//media/images/ext/982583865/cheeseburgers.jpg?quality=82&strip=1",
+                          price: "299",
+                        ),
+                      ),
+                    ],
                   ),
                 ],
               ),
