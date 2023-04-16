@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:suxoy_zakon/models/menu_item.dart';
+import 'package:suxoy_zakon/pages/cart_page.dart';
 import 'package:suxoy_zakon/pages/confirmation_page.dart';
 import 'package:suxoy_zakon/pages/contents/content_main.dart';
 import 'package:suxoy_zakon/pages/contents/not_logged_in.dart';
@@ -26,9 +27,7 @@ class MyApp extends StatelessWidget {
       theme: lightTheme,
       themeMode: ThemeMode.light,
       debugShowCheckedModeBanner: false,
-      home: const Scaffold(
-        body: NotLoggedIn(),
-      ),
+      home: CartPage()
     );
   }
 }

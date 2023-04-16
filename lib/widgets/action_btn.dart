@@ -13,6 +13,7 @@ class ActionBtn extends StatefulWidget {
     this.accentColor = primaryColor,
     this.textColor = Colors.white,
     required this.icon,
+    this.dropShadow = false,
     this.borderRadius = const BorderRadius.all(Radius.circular(25)),
     this.padding = const EdgeInsets.symmetric(horizontal: 12, vertical: 12),
     this.margin = const EdgeInsets.all(0),
@@ -21,6 +22,7 @@ class ActionBtn extends StatefulWidget {
   double height = 60;
   double width = double.infinity;
   Color accentColor = primaryColor;
+  bool dropShadow = false;
   Color textColor = const Color(0xFFFFFFFF);
   BorderRadius borderRadius = const BorderRadius.all(Radius.circular(25));
   EdgeInsets padding = const EdgeInsets.symmetric(horizontal: 12, vertical: 12);
@@ -65,14 +67,20 @@ class _ActionBtnState extends State<ActionBtn> {
             decoration: BoxDecoration(
               color: widget.accentColor,
               borderRadius: widget.borderRadius,
+              boxShadow: [
+                BoxShadow(
+                  color: Colors.grey.withOpacity(0.2),
+                  spreadRadius: 0,
+                  blurRadius: 6,
+                  offset: Offset(0, 10),
+                ),
+              ],
             ),
             child: Padding(
               padding: EdgeInsets.all(0),
               child: Row(
                 mainAxisAlignment: MainAxisAlignment.center,
-                children: [
-                  widget.icon
-                ],
+                children: [widget.icon],
               ),
             ),
           ),
