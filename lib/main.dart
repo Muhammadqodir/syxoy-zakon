@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:suxoy_zakon/models/menu_item.dart';
 import 'package:suxoy_zakon/pages/confirmation_page.dart';
+import 'package:suxoy_zakon/pages/contents/content_main.dart';
+import 'package:suxoy_zakon/pages/contents/not_logged_in.dart';
 import 'package:suxoy_zakon/pages/main_page.dart';
 import 'package:suxoy_zakon/pages/onboarding_page.dart';
 import 'package:suxoy_zakon/pages/product_page.dart';
@@ -24,14 +26,8 @@ class MyApp extends StatelessWidget {
       theme: lightTheme,
       themeMode: ThemeMode.light,
       debugShowCheckedModeBanner: false,
-      home: ProductPage(
-        position: MenuItem(
-          title: "Блинчик с ветчиной и сыром",
-          desc: "Блинчик с ветчиной и сыром",
-          imageUrl:
-              "https://www.eatthis.com/wp-content/uploads/sites/4//media/images/ext/982583865/cheeseburgers.jpg?quality=82&strip=1",
-          price: "299",
-        ),
+      home: const Scaffold(
+        body: NotLoggedIn(),
       ),
     );
   }

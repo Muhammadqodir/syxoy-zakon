@@ -39,7 +39,7 @@ class _ProductPageState extends State<ProductPage> {
                   child: Column(
                     children: [
                       Padding(
-                        padding: const EdgeInsets.symmetric(horizontal: 32),
+                        padding: const EdgeInsets.symmetric(horizontal: 24),
                         child: Column(
                           children: [
                             Row(
