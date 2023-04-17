@@ -1,17 +1,11 @@
-import 'dart:ffi';
-
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_svg/svg.dart';
 import 'package:intl/intl.dart';
 import 'package:suxoy_zakon/models/menu_item.dart';
 import 'package:suxoy_zakon/theme.dart';
 import 'package:suxoy_zakon/widgets/action_btn.dart';
 import 'package:suxoy_zakon/widgets/custom_btn.dart';
 import 'package:suxoy_zakon/widgets/icon_btn.dart';
-import 'package:suxoy_zakon/widgets/menu_position.dart';
-import 'package:suxoy_zakon/widgets/on_tap_scale.dart';
-import 'package:suxoy_zakon/widgets/static_grid.dart';
 
 class ProductPage extends StatefulWidget {
   const ProductPage({super.key, required this.position});

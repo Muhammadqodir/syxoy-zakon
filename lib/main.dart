@@ -1,18 +1,6 @@
 import 'package:flutter/material.dart';
-import 'package:suxoy_zakon/models/menu_item.dart';
 import 'package:suxoy_zakon/pages/cart_page.dart';
-import 'package:suxoy_zakon/pages/confirmation_page.dart';
-import 'package:suxoy_zakon/pages/contents/content_main.dart';
-import 'package:suxoy_zakon/pages/contents/not_logged_in.dart';
-import 'package:suxoy_zakon/pages/main_page.dart';
-import 'package:suxoy_zakon/pages/onboarding_page.dart';
-import 'package:suxoy_zakon/pages/product_page.dart';
-import 'package:suxoy_zakon/pages/register_page.dart';
-import 'package:suxoy_zakon/pages/splash_page.dart';
 import 'package:suxoy_zakon/theme.dart';
-import 'package:suxoy_zakon/widgets/custom_btn.dart';
-import 'package:suxoy_zakon/widgets/custom_select.dart';
-import 'package:suxoy_zakon/widgets/custom_text_field.dart';
 
 void main() {
   runApp(const MyApp());

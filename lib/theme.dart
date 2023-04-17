@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:flutter/services.dart';
 import 'package:suxoy_zakon/utils.dart';
 
 const primaryColor = Color(0xFF00B06C);

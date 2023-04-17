@@ -1,10 +1,8 @@
-import 'dart:async';
-
 import 'package:flutter/material.dart';
 import 'package:suxoy_zakon/theme.dart';
 
 class ActionBtn extends StatefulWidget {
-  ActionBtn({
+  const ActionBtn({
     Key? key,
     // required this.child,
     required this.onTap,
@@ -19,15 +17,15 @@ class ActionBtn extends StatefulWidget {
     this.margin = const EdgeInsets.all(0),
   }) : super(key: key);
 
-  double height = 60;
-  double width = double.infinity;
-  Color accentColor = primaryColor;
-  bool dropShadow = false;
-  Color textColor = const Color(0xFFFFFFFF);
-  BorderRadius borderRadius = const BorderRadius.all(Radius.circular(25));
-  EdgeInsets padding = const EdgeInsets.symmetric(horizontal: 12, vertical: 12);
-  EdgeInsets margin = const EdgeInsets.all(0);
-  Widget icon;
+  final double height;
+  final double width;
+  final Color accentColor;
+  final bool dropShadow;
+  final Color textColor;
+  final BorderRadius borderRadius;
+  final EdgeInsets padding;
+  final EdgeInsets margin;
+  final Widget icon;
   final void Function() onTap;
 
   @override
@@ -72,12 +70,12 @@ class _ActionBtnState extends State<ActionBtn> {
                   color: Colors.grey.withOpacity(0.2),
                   spreadRadius: 0,
                   blurRadius: 6,
-                  offset: Offset(0, 10),
+                  offset: const Offset(0, 10),
                 ),
               ],
             ),
             child: Padding(
-              padding: EdgeInsets.all(0),
+              padding: const EdgeInsets.all(0),
               child: Row(
                 mainAxisAlignment: MainAxisAlignment.center,
                 children: [widget.icon],

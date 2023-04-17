@@ -11,11 +11,11 @@ class CustomTextField extends StatefulWidget {
   final Widget? prefix;
   final TextStyle? textStyle;
   final bool obscureText;
-  BorderRadius borderRadius;
-  List<TextInputFormatter> inputFormatter;
+  final BorderRadius borderRadius;
+  final List<TextInputFormatter> inputFormatter;
   final Function(String) onChanged;
-  EdgeInsets margin = const EdgeInsets.all(0);
-  EdgeInsets padding = const EdgeInsets.all(0);
+  final EdgeInsets margin;
+  final EdgeInsets padding;
 
   CustomTextField({
     this.hint = "",

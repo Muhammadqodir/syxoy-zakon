@@ -1,10 +1,7 @@
-import 'dart:async';
-
 import 'package:flutter/material.dart';
-import 'package:suxoy_zakon/theme.dart';
 
 class AltBtn extends StatefulWidget {
-  AltBtn({
+  const AltBtn({
     Key? key,
     // required this.child,
     required this.onTap,
@@ -22,18 +19,18 @@ class AltBtn extends StatefulWidget {
     this.margin = const EdgeInsets.all(0),
   }) : super(key: key);
 
-  double height = 60;
-  double width = double.infinity;
-  Color accentColor = primaryColor;
-  Color txtColor = textColor;
-  BorderRadius borderRadius = const BorderRadius.all(Radius.circular(25));
-  EdgeInsets padding = const EdgeInsets.symmetric(horizontal: 12, vertical: 4);
-  EdgeInsets margin = const EdgeInsets.all(0);
-  MainAxisAlignment alignment;
-  TextStyle? textStyle;
-  bool dropShadow;
-  Widget? icon;
-  String text;
+  final double height;
+  final double width;
+  final Color accentColor;
+  final Color txtColor;
+  final BorderRadius borderRadius;
+  final EdgeInsets padding;
+  final EdgeInsets margin;
+  final MainAxisAlignment alignment;
+  final TextStyle? textStyle;
+  final bool dropShadow;
+  final Widget? icon;
+  final String text;
   final void Function() onTap;
 
   @override
@@ -78,7 +75,7 @@ class _AltBtnState extends State<AltBtn> {
                           color: Colors.grey.withOpacity(0.3),
                           spreadRadius: 1,
                           blurRadius: 7,
-                          offset: Offset(0, 3), // changes position of shadow
+                          offset: const Offset(0, 3), // changes position of shadow
                         ),
                       ]
                     : []),

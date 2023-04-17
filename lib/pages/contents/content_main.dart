@@ -6,7 +6,6 @@ import 'package:suxoy_zakon/theme.dart';
 import 'package:suxoy_zakon/widgets/action_btn.dart';
 import 'package:suxoy_zakon/widgets/custom_btn.dart';
 import 'package:suxoy_zakon/widgets/custom_tabs.dart';
-import 'package:suxoy_zakon/widgets/custom_text_field.dart';
 import 'package:suxoy_zakon/widgets/menu_position.dart';
 import 'package:suxoy_zakon/widgets/static_grid.dart';
 

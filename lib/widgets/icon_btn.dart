@@ -16,12 +16,12 @@ class IconBtn extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return OnTapScaleAndFade(
-      child: Container(
+      onTap: onTap,
+      child: SizedBox(
         width: size,
         height: size,
         child: icon,
       ),
-      onTap: onTap,
     );
   }
 }

@@ -45,7 +45,7 @@ class _OnTapScaleAndFadeState extends State<OnTapScaleAndFade>
         _controllerA.reverse();
       },
       onTapUp: (dp) {
-        Timer(Duration(milliseconds: 50), () {
+        Timer(const Duration(milliseconds: 50), () {
           _controllerA.fling();
         });
       },

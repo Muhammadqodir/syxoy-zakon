@@ -15,7 +15,7 @@ class Dialogs{
             onPressed: () {
               Navigator.pop(context);
             },
-            child: Text('Хорошо'),
+            child: const Text('Хорошо'),
           ),
         ],
       ),

@@ -39,12 +39,12 @@ class _RegisterFormState extends State<RegisterForm> {
     return Container(
       width: double.infinity,
       decoration: BoxDecoration(
-          border: Border.all(width: 1.5, color: Color(0xFFE6E6E6)),
+          border: Border.all(width: 1.5, color: const Color(0xFFE6E6E6)),
           borderRadius: BorderRadius.circular(18)),
       child: Column(
         children: [
           Padding(
-            padding: EdgeInsets.all(18),
+            padding: const EdgeInsets.all(18),
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
@@ -68,7 +68,7 @@ class _RegisterFormState extends State<RegisterForm> {
             color: Color(0xFFE6E6E6),
           ),
           Padding(
-            padding: EdgeInsets.all(18),
+            padding: const EdgeInsets.all(18),
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [

@@ -28,7 +28,7 @@ class _MenuPositionState extends State<MenuPosition> {
               color: primaryColor.withOpacity(0.2),
               spreadRadius: 0,
               blurRadius: 40,
-              offset: Offset(0, 20), // changes position of shadow
+              offset: const Offset(0, 20), // changes position of shadow
             ),
           ],
         ),
@@ -43,7 +43,7 @@ class _MenuPositionState extends State<MenuPosition> {
                     color: primaryColor.withOpacity(0.2),
                     spreadRadius: 0,
                     blurRadius: 40,
-                    offset: Offset(0, 20), // changes position of shadow
+                    offset: const Offset(0, 20), // changes position of shadow
                   ),
                 ],
               ),

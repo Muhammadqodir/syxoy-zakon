@@ -17,7 +17,6 @@ class _CustomTabsState extends State<CustomTabs> {
 
   @override
   void initState() {
-    // TODO: implement initState
     super.initState();
   }
 
@@ -37,8 +36,8 @@ class _CustomTabsState extends State<CustomTabs> {
                   widget.onChanged(widget.tabs.indexOf(e));
                 },
                 borderRadius: BorderRadius.circular(16),
-                padding: EdgeInsets.symmetric(horizontal: 12),
-                margin: EdgeInsets.symmetric(horizontal: 6),
+                padding: const EdgeInsets.symmetric(horizontal: 12),
+                margin: const EdgeInsets.symmetric(horizontal: 6),
                 accentColor: selectedIndex == widget.tabs.indexOf(e)
                     ? primaryColor
                     : const Color(0xFFF9F9F9),

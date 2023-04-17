@@ -27,7 +27,7 @@ class _CartItemWidgetState extends State<CartItemWidget> {
             color: Colors.grey.withOpacity(0.3),
             spreadRadius: 1,
             blurRadius: 7,
-            offset: Offset(0, 3),
+            offset: const Offset(0, 3),
           ),
         ],
       ),
@@ -77,7 +77,7 @@ class _CartItemWidgetState extends State<CartItemWidget> {
               crossAxisAlignment: CrossAxisAlignment.center,
               mainAxisAlignment: MainAxisAlignment.center,
               children: [
-                SizedBox(width: 4,),
+                const SizedBox(width: 4,),
                 IconBtn(
                   size: 30,
                   icon: const Icon(
@@ -100,7 +100,7 @@ class _CartItemWidgetState extends State<CartItemWidget> {
                   ),
                   onTap: () {},
                 ),
-                SizedBox(width: 4,),
+                const SizedBox(width: 4,),
               ],
             ),
           ),

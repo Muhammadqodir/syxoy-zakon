@@ -8,14 +8,15 @@ const double _kItemExtent = 32.0;
 class CustomSelect extends StatefulWidget {
   final String hint;
   final TextAlign textAlign;
-  BorderRadius borderRadius;
-  List<String> items;
+  final BorderRadius borderRadius;
+  final List<String> items;
   final Function(int) onChanged;
-  Color baseColor;
-  EdgeInsets margin = const EdgeInsets.all(0);
-  EdgeInsets padding = const EdgeInsets.all(0);
+  final Color baseColor;
+  final EdgeInsets margin;
+  final EdgeInsets padding;
 
-  CustomSelect({
+  const CustomSelect({
+    super.key,
     this.hint = "",
     required this.onChanged,
     required this.items,
@@ -38,9 +39,9 @@ class _CustomSelectState extends State<CustomSelect> {
   void initState() {
     super.initState();
     currentColor = widget.baseColor;
-    if(widget.items.isNotEmpty){
+    if (widget.items.isNotEmpty) {
       selectedIndex = 0;
-    }else{
+    } else {
       selectedIndex = -1;
     }
   }
@@ -70,8 +71,13 @@ class _CustomSelectState extends State<CustomSelect> {
                   ),
                 ),
                 widget.items.isEmpty
-                    ? const CupertinoActivityIndicator(radius: 12,)
-                    : const Icon(CupertinoIcons.chevron_down, size: 18,)
+                    ? const CupertinoActivityIndicator(
+                        radius: 12,
+                      )
+                    : const Icon(
+                        CupertinoIcons.chevron_down,
+                        size: 18,
+                      )
               ],
             ),
           ),
@@ -90,7 +96,7 @@ class _CustomSelectState extends State<CustomSelect> {
         FixedExtentScrollController(
             initialItem: selectedIndex < 0 ? 0 : selectedIndex);
     showCupertinoModalPopup<void>(
-      context: this.context,
+      context: context,
       builder: (BuildContext context) => Container(
         height: 250,
         padding: const EdgeInsets.only(top: 6.0),

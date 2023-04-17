@@ -169,7 +169,7 @@ class _CartPageState extends State<CartPage> {
             color: Colors.grey.withOpacity(0.2),
             spreadRadius: 0,
             blurRadius: 10,
-            offset: Offset(0, -10), // changes position of shadow
+            offset: const Offset(0, -10), // changes position of shadow
           ),
         ],
       ),
