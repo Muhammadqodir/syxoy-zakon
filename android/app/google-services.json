@@ -1,0 +1,39 @@
+{
+  "project_info": {
+    "project_number": "236484354616",
+    "project_id": "suxoy-zakon",
+    "storage_bucket": "suxoy-zakon.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:236484354616:android:1b750d078645169c1dbccd",
+        "android_client_info": {
+          "package_name": "com.example.suxoy_zakon"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "236484354616-bqi4jpnqraatcbfnsc0c2f4nunsa4h5p.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyDWiKbBNaAyReTGFjxTkwaNSpMPDe_JPgI"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "236484354616-bqi4jpnqraatcbfnsc0c2f4nunsa4h5p.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
