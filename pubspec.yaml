@@ -40,6 +40,7 @@ dependencies:
   pin_code_fields: ^7.4.0
   intl: ^0.18.0
   firebase_core: ^2.9.0
+  firebase_auth: ^4.2.2
 
 dev_dependencies:
   flutter_test:

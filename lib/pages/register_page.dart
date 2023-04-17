@@ -1,6 +1,11 @@
+import 'dart:developer';
+
+import 'package:firebase_auth/firebase_auth.dart';
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:suxoy_zakon/forms/register_form.dart';
 import 'package:suxoy_zakon/models/form_data.dart';
+import 'package:suxoy_zakon/pages/confirmation_page.dart';
 import 'package:suxoy_zakon/theme.dart';
 import 'package:suxoy_zakon/widgets/custom_btn.dart';
 import 'package:suxoy_zakon/widgets/dialogs.dart';
@@ -9,6 +14,7 @@ class RegisterPage extends StatelessWidget {
   RegisterPage({super.key});
 
   final RegisterForm form = RegisterForm();
+  FirebaseAuth auth = FirebaseAuth.instance;
 
   @override
   Widget build(BuildContext context) {
@@ -49,11 +55,40 @@ class RegisterPage extends StatelessWidget {
                 height: 12,
               ),
               CustomBtn(
-                onTap: () {
+                onTap: () async {
                   FormDataModel model = form.validateForm();
-                  if(model.isValid){
-                    //Do something
-                  }else{
+                  if (model.isValid) {
+                    // Dialogs.showAlertDialog(context, "Phone", model.data);
+                    await FirebaseAuth.instance.verifyPhoneNumber(
+                      phoneNumber: model.data,
+                      verificationCompleted: (
+                        PhoneAuthCredential credential,
+                      ) {
+                      },
+                      verificationFailed: (FirebaseAuthException e) {
+                        log("Authorized failed${e.message}");
+                        if (e.code == 'invalid-phone-number') {
+                          Dialogs.showAlertDialog(
+                            context,
+                            "Failed",
+                            "The provided phone number is not valid.",
+                          );
+                        }
+                      },
+                      codeSent: (String verificationId, int? resendToken) {
+                        Navigator.push(
+                          context,
+                          CupertinoPageRoute(
+                            builder: (context) => ConfirmationPage(
+                              auth: auth,
+                              verificationId: verificationId,
+                            ),
+                          ),
+                        );
+                      },
+                      codeAutoRetrievalTimeout: (String verificationId) {},
+                    );
+                  } else {
                     Dialogs.showAlertDialog(context, "Ошибка", model.message);
                   }
                 },
