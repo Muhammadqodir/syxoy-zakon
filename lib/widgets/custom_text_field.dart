@@ -17,7 +17,7 @@ class CustomTextField extends StatefulWidget {
   final EdgeInsets margin;
   final EdgeInsets padding;
 
-  CustomTextField({
+  const CustomTextField({
     this.hint = "",
     required this.controller,
     required this.onChanged,

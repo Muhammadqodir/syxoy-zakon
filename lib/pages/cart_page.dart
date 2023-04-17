@@ -1,5 +1,6 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_svg/svg.dart';
 import 'package:suxoy_zakon/models/cart_item.dart';
 import 'package:suxoy_zakon/models/menu_item.dart';
 import 'package:suxoy_zakon/theme.dart';
@@ -22,46 +23,6 @@ class CartPage extends StatefulWidget {
       ),
       count: 3,
     ),
-    CartItem(
-      item: MenuItem(
-        title: "Блинчик с ветчиной и сыром",
-        desc: "Блинчик с ветчиной и сыром",
-        imageUrl:
-            "https://www.eatthis.com/wp-content/uploads/sites/4//media/images/ext/982583865/cheeseburgers.jpg?quality=82&strip=1",
-        price: "299",
-      ),
-      count: 3,
-    ),
-    CartItem(
-      item: MenuItem(
-        title: "Блинчик с ветчиной и сыром",
-        desc: "Блинчик с ветчиной и сыром",
-        imageUrl:
-            "https://www.eatthis.com/wp-content/uploads/sites/4//media/images/ext/982583865/cheeseburgers.jpg?quality=82&strip=1",
-        price: "299",
-      ),
-      count: 3,
-    ),
-    CartItem(
-      item: MenuItem(
-        title: "Блинчик с ветчиной и сыром",
-        desc: "Блинчик с ветчиной и сыром",
-        imageUrl:
-            "https://www.eatthis.com/wp-content/uploads/sites/4//media/images/ext/982583865/cheeseburgers.jpg?quality=82&strip=1",
-        price: "299",
-      ),
-      count: 3,
-    ),
-    CartItem(
-      item: MenuItem(
-        title: "Блинчик с ветчиной и сыром",
-        desc: "Блинчик с ветчиной и сыром",
-        imageUrl:
-            "https://www.eatthis.com/wp-content/uploads/sites/4//media/images/ext/982583865/cheeseburgers.jpg?quality=82&strip=1",
-        price: "299",
-      ),
-      count: 3,
-    )
   ];
 
   @override
@@ -104,55 +65,76 @@ class _CartPageState extends State<CartPage> {
                         const SizedBox(
                           height: 12,
                         ),
-                        Row(
-                          children: [
-                            Expanded(
-                              child: Text(
-                                "${widget.items.length} блюда",
-                                style: Theme.of(context).textTheme.titleLarge,
-                              ),
-                            ),
-                            AltBtn(
-                              onTap: () {},
-                              txtColor: textColor,
-                              dropShadow: true,
-                              text: "Добавить",
-                            )
-                          ],
-                        )
+                        widget.items.isNotEmpty
+                            ? Row(
+                                children: [
+                                  Expanded(
+                                    child: Text(
+                                      "${widget.items.length} блюда",
+                                      style: Theme.of(context)
+                                          .textTheme
+                                          .titleLarge,
+                                    ),
+                                  ),
+                                  AltBtn(
+                                    onTap: () {},
+                                    txtColor: textColor,
+                                    dropShadow: true,
+                                    text: "Добавить",
+                                  )
+                                ],
+                              )
+                            : SizedBox()
                       ],
                     ),
                   ),
                   const SizedBox(
                     height: 12,
                   ),
-                  Expanded(
-                    child: ListView(
-                      padding: EdgeInsets.zero,
-                      children: widget.items
-                          .map(
-                            (e) => Column(
-                              children: [
-                                CartItemWidget(
-                                  item: e,
-                                ),
-                                SizedBox(height: widget.items.last == e ? 270 : 0)
-                              ],
-                            ),
-                          )
-                          .toList(),
-                    ),
-                  ),
+                  widget.items.isNotEmpty
+                      ? Expanded(
+                          child: ListView(
+                            padding: EdgeInsets.zero,
+                            children: widget.items
+                                .map(
+                                  (e) => Column(
+                                    children: [
+                                      CartItemWidget(
+                                        item: e,
+                                      ),
+                                      SizedBox(
+                                          height:
+                                              widget.items.last == e ? 270 : 0)
+                                    ],
+                                  ),
+                                )
+                                .toList(),
+                          ),
+                        )
+                      : Expanded(
+                          child: Column(
+                            mainAxisAlignment: MainAxisAlignment.center,
+                            crossAxisAlignment: CrossAxisAlignment.center,
+                            children: [
+                              SvgPicture.asset("assets/empty_cart.svg"),
+                              Text(
+                                "Ваша корзина пуста",
+                                style: Theme.of(context).textTheme.titleLarge,
+                              )
+                            ],
+                          ),
+                        ),
                 ],
               ),
             ),
           ),
-          Positioned(
-            bottom: 0,
-            left: 0,
-            right: 0,
-            child: getReceptWidget(context),
-          ),
+          if (widget.items.isNotEmpty)
+            Positioned(
+              bottom: 0,
+              left: 0,
+              right: 0,
+              child: getReceptWidget(context),
+            ),
         ],
       ),
     );
