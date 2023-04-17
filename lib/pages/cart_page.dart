@@ -77,67 +77,74 @@ class _CartPageState extends State<CartPage> {
       backgroundColor: const Color(0xFFF9F9F9),
       body: Stack(
         children: [
-          SafeArea(
-            child: Column(
-              children: [
-                const SizedBox(
-                  height: 12,
-                ),
-                Padding(
-                  padding: const EdgeInsets.symmetric(horizontal: 24),
-                  child: Column(
-                    children: [
-                      Row(
-                        children: [
-                          ActionBtn(
-                            onTap: () {},
-                            accentColor:
-                                Theme.of(context).scaffoldBackgroundColor,
-                            icon: const Icon(
-                              CupertinoIcons.arrow_left,
-                              size: 20,
-                            ),
-                          ),
-                        ],
-                      ),
-                      const SizedBox(
-                        height: 12,
-                      ),
-                      Row(
-                        children: [
-                          Expanded(
-                            child: Text(
-                              "4 блюда",
-                              style: Theme.of(context).textTheme.titleLarge,
-                            ),
-                          ),
-                          AltBtn(
-                            onTap: () {},
-                            txtColor: textColor,
-                            dropShadow: true,
-                            text: "Добавить",
-                          )
-                        ],
-                      )
-                    ],
+          Positioned(
+            child: SafeArea(
+              child: Column(
+                children: [
+                  const SizedBox(
+                    height: 12,
                   ),
-                ),
-                const SizedBox(
-                  height: 12,
-                ),
-                Expanded(
-                  child: ListView(
-                    padding: EdgeInsets.zero,
-                    children: widget.items
-                        .map(
-                          (e) => CartItemWidget(
-                            item: e,
-                          ),
+                  Padding(
+                    padding: const EdgeInsets.symmetric(horizontal: 24),
+                    child: Column(
+                      children: [
+                        Row(
+                          children: [
+                            ActionBtn(
+                              onTap: () {},
+                              accentColor:
+                                  Theme.of(context).scaffoldBackgroundColor,
+                              icon: const Icon(
+                                CupertinoIcons.arrow_left,
+                                size: 20,
+                              ),
+                            ),
+                          ],
+                        ),
+                        const SizedBox(
+                          height: 12,
+                        ),
+                        Row(
+                          children: [
+                            Expanded(
+                              child: Text(
+                                "${widget.items.length} блюда",
+                                style: Theme.of(context).textTheme.titleLarge,
+                              ),
+                            ),
+                            AltBtn(
+                              onTap: () {},
+                              txtColor: textColor,
+                              dropShadow: true,
+                              text: "Добавить",
+                            )
+                          ],
                         )
-                        .toList(),
+                      ],
+                    ),
                   ),
-                ),
-              ],
+                  const SizedBox(
+                    height: 12,
+                  ),
+                  Expanded(
+                    child: ListView(
+                      padding: EdgeInsets.zero,
+                      children: widget.items
+                          .map(
+                            (e) => Column(
+                              children: [
+                                CartItemWidget(
+                                  item: e,
+                                ),
+                                SizedBox(height: widget.items.last == e ? 270 : 0)
+                              ],
+                            ),
+                          )
+                          .toList(),
+                    ),
+                  ),
+                ],
+              ),
             ),
           ),
           Positioned(

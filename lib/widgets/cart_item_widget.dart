@@ -71,14 +71,6 @@ class _CartItemWidgetState extends State<CartItemWidget> {
             decoration: BoxDecoration(
               color: primaryColor,
               borderRadius: BorderRadius.circular(25),
-              boxShadow: [
-                BoxShadow(
-                  color: primaryColor.withOpacity(0.2),
-                  spreadRadius: 0,
-                  blurRadius: 40,
-                  offset: const Offset(0, 20),
-                ),
-              ],
             ),
             alignment: Alignment.center,
             child: Row(
@@ -96,7 +88,7 @@ class _CartItemWidgetState extends State<CartItemWidget> {
                 ),
                 Expanded(
                   child: Center(
-                    child: Text("10",
+                    child: Text(widget.item.count.toString(),
                         style: Theme.of(context).textTheme.titleMedium!.copyWith(color: Colors.white)),
                   ),
                 ),
