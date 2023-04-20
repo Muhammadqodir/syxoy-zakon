@@ -1,22 +1,27 @@
 import 'dart:developer';
 
 import 'package:firebase_auth/firebase_auth.dart';
-import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:pin_code_fields/pin_code_fields.dart';
+import 'package:suxoy_zakon/api_master.dart';
 import 'package:suxoy_zakon/theme.dart';
 import 'package:suxoy_zakon/widgets/custom_btn.dart';
 import 'package:suxoy_zakon/widgets/dialogs.dart';
 
 class ConfirmationPage extends StatelessWidget {
-  ConfirmationPage(
-      {super.key, required this.auth, required this.verificationId});
+  ConfirmationPage({
+    super.key,
+    required this.auth,
+    required this.verificationId,
+    required this.phone,
+  });
 
   final Color scaffoldBackgroundColor = const Color(0xFFF9F9F9);
   final pinController = TextEditingController();
   final FirebaseAuth auth;
   final String verificationId;
+  final String phone;
 
   @override
   Widget build(BuildContext context) {
@@ -78,12 +83,8 @@ class ConfirmationPage extends StatelessWidget {
                     try {
                       UserCredential user =
                           await auth.signInWithCredential(credential);
-                      print(user);
-                      Dialogs.showAlertDialog(
-                        context,
-                        "Success",
-                        "Authorized successfuly",
-                      );
+                      Response<String> data = await Api().register(phone);
+                      print(data);
                     } catch (e) {
                       print(e);
                       Dialogs.showAlertDialog(
@@ -104,11 +105,11 @@ class ConfirmationPage extends StatelessWidget {
               ),
               CustomBtn(
                 onTap: () {
-                  //do something
+                  Navigator.pop(context);
                 },
                 textColor: primaryColor,
                 accentColor: scaffoldBackgroundColor,
-                text: "Отправить код еще раз",
+                text: "Изменить номер",
               )
             ],
           ),

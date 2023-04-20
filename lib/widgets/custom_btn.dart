@@ -1,3 +1,4 @@
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:suxoy_zakon/theme.dart';
 
@@ -14,6 +15,7 @@ class CustomBtn extends StatefulWidget {
     this.textStyle,
     required this.text,
     this.dropShadow = false,
+    this.isLogin = false,
     this.alignment = MainAxisAlignment.center,
     this.borderRadius = const BorderRadius.all(Radius.circular(25)),
     this.padding = const EdgeInsets.symmetric(horizontal: 12, vertical: 12),
@@ -29,6 +31,7 @@ class CustomBtn extends StatefulWidget {
   final EdgeInsets margin;
   final MainAxisAlignment alignment;
   final TextStyle? textStyle;
+  final bool isLogin;
   final bool dropShadow;
   final Widget? icon;
   final String text;
@@ -46,7 +49,7 @@ class _CustomBtnState extends State<CustomBtn> {
     return Padding(
       padding: widget.margin,
       child: GestureDetector(
-        onTap: widget.onTap,
+        onTap: widget.isLogin ? null : widget.onTap,
         onTapDown: (details) {
           setState(() {
             isOnTap = true;
@@ -76,35 +79,42 @@ class _CustomBtnState extends State<CustomBtn> {
                           color: primaryColor.withOpacity(0.3),
                           spreadRadius: 5,
                           blurRadius: 7,
-                          offset: const Offset(0, 3), // changes position of shadow
+                          offset:
+                              const Offset(0, 3), // changes position of shadow
                         ),
                       ]
                     : []),
             child: Padding(
               padding: widget.padding,
-              child: Row(
-                mainAxisAlignment: widget.alignment,
-                children: [
-                  widget.icon != null
-                      ? Row(
-                          children: [
-                            widget.icon!,
-                            const SizedBox(
-                              width: 8,
-                            )
-                          ],
-                        )
-                      : const SizedBox(),
-                  Text(
-                    widget.text,
-                    style: widget.textStyle ??
-                        Theme.of(context)
-                            .textTheme
-                            .titleMedium!
-                            .copyWith(color: widget.textColor),
-                  ),
-                ],
-              ),
+              child: !widget.isLogin
+                  ? Row(
+                      mainAxisAlignment: widget.alignment,
+                      children: [
+                        widget.icon != null
+                            ? Row(
+                                children: [
+                                  widget.icon!,
+                                  const SizedBox(
+                                    width: 8,
+                                  )
+                                ],
+                              )
+                            : const SizedBox(),
+                        Text(
+                          widget.text,
+                          style: widget.textStyle ??
+                              Theme.of(context)
+                                  .textTheme
+                                  .titleMedium!
+                                  .copyWith(color: widget.textColor),
+                        ),
+                      ],
+                    )
+                  : Center(
+                      child: CupertinoActivityIndicator(
+                        color: widget.textColor,
+                      ),
+                    ),
             ),
           ),
         ),

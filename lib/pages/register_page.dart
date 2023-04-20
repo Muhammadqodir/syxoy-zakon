@@ -10,11 +10,18 @@ import 'package:suxoy_zakon/theme.dart';
 import 'package:suxoy_zakon/widgets/custom_btn.dart';
 import 'package:suxoy_zakon/widgets/dialogs.dart';
 
-class RegisterPage extends StatelessWidget {
+class RegisterPage extends StatefulWidget {
   RegisterPage({super.key});
 
+  @override
+  State<RegisterPage> createState() => _RegisterPageState();
+}
+
+class _RegisterPageState extends State<RegisterPage> {
   final RegisterForm form = RegisterForm();
+
   FirebaseAuth auth = FirebaseAuth.instance;
+  bool isLogin = false;
 
   @override
   Widget build(BuildContext context) {
@@ -55,7 +62,11 @@ class RegisterPage extends StatelessWidget {
                 height: 12,
               ),
               CustomBtn(
+                isLogin: isLogin,
                 onTap: () async {
+                  setState(() {
+                    isLogin = true;
+                  });
                   FormDataModel model = form.validateForm();
                   if (model.isValid) {
                     // Dialogs.showAlertDialog(context, "Phone", model.data);
@@ -63,25 +74,34 @@ class RegisterPage extends StatelessWidget {
                       phoneNumber: model.data,
                       verificationCompleted: (
                         PhoneAuthCredential credential,
-                      ) {
-                      },
+                      ) {},
                       verificationFailed: (FirebaseAuthException e) {
+                        setState(() {
+                          isLogin = false;
+                        });
                         log("Authorized failed${e.message}");
                         if (e.code == 'invalid-phone-number') {
                           Dialogs.showAlertDialog(
                             context,
-                            "Failed",
-                            "The provided phone number is not valid.",
+                            "Ошибка",
+                            "Неверный формат номера телефона.",
                           );
+                        } else {
+                          Dialogs.showAlertDialog(
+                              context, "Ошибка", e.message.toString());
                         }
                       },
                       codeSent: (String verificationId, int? resendToken) {
+                        setState(() {
+                          isLogin = false;
+                        });
                         Navigator.push(
                           context,
                           CupertinoPageRoute(
                             builder: (context) => ConfirmationPage(
                               auth: auth,
                               verificationId: verificationId,
+                              phone: model.data,
                             ),
                           ),
                         );
