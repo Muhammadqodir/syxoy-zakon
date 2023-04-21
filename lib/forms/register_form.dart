@@ -7,8 +7,9 @@ import 'package:suxoy_zakon/widgets/custom_select.dart';
 import 'package:suxoy_zakon/widgets/custom_text_field.dart';
 
 class RegisterForm extends StatefulWidget {
-  RegisterForm({super.key});
+  RegisterForm({super.key, this.initPhone = ""});
 
+  final String initPhone;
   final phoneController = TextEditingController();
 
   bool isLoading = false;

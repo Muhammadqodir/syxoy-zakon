@@ -62,9 +62,10 @@ class ConfirmationPage extends StatelessWidget {
                   length: 6,
                   onChanged: (v) {},
                   pinTheme: PinTheme(
-                      inactiveColor: primaryColor,
-                      activeColor: primaryColor,
-                      selectedColor: textColor),
+                    inactiveColor: primaryColor,
+                    activeColor: primaryColor,
+                    selectedColor: textColor,
+                  ),
                 ),
               ),
               const SizedBox(

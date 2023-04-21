@@ -18,7 +18,7 @@ class RegisterPage extends StatefulWidget {
 }
 
 class _RegisterPageState extends State<RegisterPage> {
-  final RegisterForm form = RegisterForm();
+  final RegisterForm form = RegisterForm(initPhone: "9682659013",);
 
   FirebaseAuth auth = FirebaseAuth.instance;
   bool isLogin = false;
