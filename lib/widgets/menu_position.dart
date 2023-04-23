@@ -17,7 +17,7 @@ class _MenuPositionState extends State<MenuPosition> {
   @override
   Widget build(BuildContext context) {
     return OnTapScaleAndFade(
-      onTap: (){},
+      onTap: () {},
       lowerBound: 0.94,
       child: Container(
         decoration: BoxDecoration(
@@ -62,13 +62,18 @@ class _MenuPositionState extends State<MenuPosition> {
             const SizedBox(
               height: 12,
             ),
-            Text(
-              widget.position.title,
-              textAlign: TextAlign.center,
-              style: Theme.of(context)
-                  .textTheme
-                  .titleMedium!
-                  .copyWith(color: Colors.white),
+            SizedBox(
+              height: 32,
+              child: Text(
+                widget.position.title,
+                textAlign: TextAlign.center,
+                maxLines: 2,
+                overflow: TextOverflow.fade,
+                style: Theme.of(context)
+                    .textTheme
+                    .titleMedium!
+                    .copyWith(color: Colors.white, fontSize: 13),
+              ),
             ),
             Container(
               padding: const EdgeInsets.all(12),

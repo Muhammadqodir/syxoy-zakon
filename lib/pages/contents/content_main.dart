@@ -1,11 +1,15 @@
+import 'dart:developer';
+
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
+import 'package:suxoy_zakon/api_master.dart';
 import 'package:suxoy_zakon/models/menu_item.dart';
 import 'package:suxoy_zakon/theme.dart';
 import 'package:suxoy_zakon/widgets/action_btn.dart';
 import 'package:suxoy_zakon/widgets/custom_btn.dart';
 import 'package:suxoy_zakon/widgets/custom_tabs.dart';
+import 'package:suxoy_zakon/widgets/dialogs.dart';
 import 'package:suxoy_zakon/widgets/menu_position.dart';
 import 'package:suxoy_zakon/widgets/static_grid.dart';
 
@@ -17,6 +21,43 @@ class ContentMain extends StatefulWidget {
 }
 
 class _ContentMainState extends State<ContentMain> {
+  @override
+  void initState() {
+    // TODO: implement initState
+    super.initState();
+    _fillData();
+  }
+
+  List<String> categoriesList = [];
+  List<MenuItem> items = [];
+
+  _fillData() async {
+    Api api = Api();
+
+    Response<List<String>> categories = await api.getCategories();
+    if (categories.success) {
+      setState(() {
+        categoriesList = categories.data!;
+      });
+    } else {
+      Dialogs.showAlertDialog(
+        context,
+        "Failed",
+        categories.message,
+      );
+    }
+
+    Response<List<MenuItem>> menuRes = await api.getAllMenu();
+    if (menuRes.success) {
+      items = menuRes.data!;
+      setState(() {
+        
+      });
+    } else {
+      log(menuRes.message);
+    }
+  }
+
   @override
   Widget build(BuildContext context) {
     return ListView(
@@ -92,13 +133,7 @@ class _ContentMainState extends State<ContentMain> {
                     height: 12,
                   ),
                   CustomTabs(
-                    tabs: const [
-                      "Блины",
-                      "Бургеры",
-                      "Гренки",
-                      "Картофель",
-                      "Пицца"
-                    ],
+                    tabs: categoriesList,
                     onChanged: (index) {},
                   ),
                   const SizedBox(
@@ -106,45 +141,15 @@ class _ContentMainState extends State<ContentMain> {
                   ),
                   StaticGrid(
                     gap: 12,
+                    rowCrossAxisAlignment: CrossAxisAlignment.start,
                     padding: const EdgeInsets.symmetric(horizontal: 24),
-                    children: [
-                      MenuPosition(
-                        position: MenuItem(
-                          title: "Блинчик с ветчиной и сыром",
-                          desc: "Блинчик с ветчиной и сыром",
-                          imageUrl:
-                              "https://www.eatthis.com/wp-content/uploads/sites/4//media/images/ext/982583865/cheeseburgers.jpg?quality=82&strip=1",
-                          price: "299",
-                        ),
-                      ),
-                      MenuPosition(
-                        position: MenuItem(
-                          title: "Блинчик с ветчиной и сыром",
-                          desc: "Блинчик с ветчиной и сыром",
-                          imageUrl:
-                              "https://www.eatthis.com/wp-content/uploads/sites/4//media/images/ext/982583865/cheeseburgers.jpg?quality=82&strip=1",
-                          price: "299",
-                        ),
-                      ),
-                      MenuPosition(
-                        position: MenuItem(
-                          title: "Блинчик с ветчиной и сыром",
-                          desc: "Блинчик с ветчиной и сыром",
-                          imageUrl:
-                              "https://www.eatthis.com/wp-content/uploads/sites/4//media/images/ext/982583865/cheeseburgers.jpg?quality=82&strip=1",
-                          price: "299",
-                        ),
-                      ),
-                      MenuPosition(
-                        position: MenuItem(
-                          title: "Блинчик с ветчиной и сыром",
-                          desc: "Блинчик с ветчиной и сыром",
-                          imageUrl:
-                              "https://www.eatthis.com/wp-content/uploads/sites/4//media/images/ext/982583865/cheeseburgers.jpg?quality=82&strip=1",
-                          price: "299",
-                        ),
-                      ),
-                    ],
+                    children: items
+                        .map(
+                          (e) => MenuPosition(
+                            position: e,
+                          ),
+                        )
+                        .toList(),
                   ),
                 ],
               ),
