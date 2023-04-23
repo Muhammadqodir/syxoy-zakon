@@ -1,6 +1,8 @@
 import 'dart:convert';
 
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:http/http.dart' as http;
+import 'package:suxoy_zakon/models/user.dart';
 
 const String baseUrl = "https://abduvoitov.uz/suxoy_zakon/api/";
 
@@ -25,14 +27,22 @@ class Api {
     );
   }
 
-  Future<Response<String>> register(String phone) async {
+  Future<Response<UserModel>> register(String phone) async {
     var response = await post("register.php", {"phone": phone});
     print(response.body);
     if (response.statusCode == 200) {
       try {
         Map<String, dynamic> data = jsonDecode(response.body);
         if (data["isSuccess"]) {
-          return Response(data: "data");
+          Map<String, dynamic> userJson = data["data"];
+          return Response(
+            data: UserModel(
+                token: userJson["token"],
+                fullName: userJson["fullName"],
+                phone: userJson["phone"],
+                gender: userJson["gender"],
+                birthDay: userJson["birth_day"]),
+          );
         } else {
           return Response.failed(message: data["message"]);
         }
