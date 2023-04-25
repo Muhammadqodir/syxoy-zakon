@@ -1,12 +1,14 @@
 import 'dart:developer';
 
 import 'package:firebase_auth/firebase_auth.dart';
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:pin_code_fields/pin_code_fields.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:suxoy_zakon/api_master.dart';
 import 'package:suxoy_zakon/models/user.dart';
+import 'package:suxoy_zakon/pages/main_page.dart';
 import 'package:suxoy_zakon/theme.dart';
 import 'package:suxoy_zakon/widgets/custom_btn.dart';
 import 'package:suxoy_zakon/widgets/dialogs.dart';
@@ -83,7 +85,68 @@ class _ConfirmationPageState extends State<ConfirmationPage> {
               ),
               CustomBtn(
                 isLogin: isLoading,
-                onTap: _confirm(),
+                onTap: () async {
+                  String pin = pinController.text;
+                  log(pin);
+                  if (pin.length == 6) {
+                    setState(() {
+                      isLoading = true;
+                    });
+                    PhoneAuthCredential credential =
+                        PhoneAuthProvider.credential(
+                      verificationId: widget.verificationId,
+                      smsCode: pin,
+                    );
+                    try {
+                      UserCredential user =
+                          await widget.auth.signInWithCredential(credential);
+                      Response<UserModel> data =
+                          await Api().register(widget.phone);
+                      if (data.success) {
+                        SharedPreferences preferences =
+                            await SharedPreferences.getInstance();
+
+                        // preferences.setBool("isLogin", true);
+                        // preferences.setString("token", data.data!.token);
+                        // preferences.setString("phone", data.data!.phone);
+                        // preferences.setString("fullName", data.data!.fullName);
+                        Navigator.pushReplacement(
+                          context,
+                          CupertinoPageRoute(
+                            builder: (context) => MainPage(),
+                          ),
+                        );
+                        // Dialogs.showAlertDialog(
+                        //   context,
+                        //   "Failed",
+                        //   data.data!.token ?? "data",
+                        // );
+                      } else {
+                        Dialogs.showAlertDialog(
+                          context,
+                          "Failed",
+                          data.message,
+                        );
+                      }
+                      setState(() {
+                        isLoading = true;
+                      });
+                    } catch (e) {
+                      print(e);
+                      Dialogs.showAlertDialog(
+                        context,
+                        "Failed",
+                        "Authorized failed",
+                      );
+                    }
+                  } else {
+                    Dialogs.showAlertDialog(
+                      context,
+                      "Ошибка",
+                      "Введите код проверки",
+                    );
+                  }
+                },
                 text: "Подтверить",
               ),
               CustomBtn(
@@ -99,61 +162,5 @@ class _ConfirmationPageState extends State<ConfirmationPage> {
         ),
       ),
     );
-  }
-
-  _confirm() async {
-    String pin = pinController.text;
-    log(pin);
-    if (pin.length == 6) {
-      setState(() {
-        isLoading = true;
-      });
-      PhoneAuthCredential credential = PhoneAuthProvider.credential(
-        verificationId: widget.verificationId,
-        smsCode: pin,
-      );
-      try {
-        UserCredential user =
-            await widget.auth.signInWithCredential(credential);
-        Response<UserModel> data = await Api().register(widget.phone);
-        if (data.success) {
-          SharedPreferences preferences = await SharedPreferences.getInstance();
-
-          // preferences.setBool("isLogin", true);
-          // preferences.setString("token", data.data!.token);
-          // preferences.setString("phone", data.data!.phone);
-          // preferences.setString("fullName", data.data!.fullName);
-
-          Dialogs.showAlertDialog(
-            context,
-            "Failed",
-            data.data!.token ?? "data",
-          );
-
-        } else {
-          Dialogs.showAlertDialog(
-            context,
-            "Failed",
-            data.message,
-          );
-        }
-        setState(() {
-          isLoading = true;
-        });
-      } catch (e) {
-        print(e);
-        Dialogs.showAlertDialog(
-          context,
-          "Failed",
-          "Authorized failed",
-        );
-      }
-    } else {
-      Dialogs.showAlertDialog(
-        context,
-        "Ошибка",
-        "Введите код проверки",
-      );
-    }
   }
 }
