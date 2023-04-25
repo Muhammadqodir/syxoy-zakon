@@ -158,6 +158,42 @@ class Api {
     }
   }
 
+  Future<Response<List<MenuItem>>> search(String q) async {
+    String requestUrl = "search.php?q=$q";
+    var response = await get(requestUrl);
+    print(response.body);
+    if (response.statusCode == 200) {
+      try {
+        Map<String, dynamic> data = jsonDecode(response.body);
+        if (data["isSuccess"]) {
+          List<MenuItem> res = [];
+          for (Map<String, dynamic> item in data["data"]) {
+            print(item["title"]);
+            res.add(
+              MenuItem(
+                id: int.parse(item["id"]),
+                title: item["title"],
+                desc: item["description"],
+                imageUrl: item["pic"],
+                price: item["price"],
+              ),
+            );
+          }
+          return Response(data: res);
+        } else {
+          return Response.failed(message: data["message"]);
+        }
+      } catch (e) {
+        return Response.failed(message: e.toString());
+      }
+    } else {
+      return Response.failed(
+        message:
+            "Request failed!\nStatus code:${response.statusCode}\n${response.body}",
+      );
+    }
+  }
+
   Uri getRoute(String route) {
     print(baseUrl + route);
     return Uri.parse(baseUrl + route);

@@ -6,6 +6,7 @@ import 'package:flutter_svg/svg.dart';
 import 'package:sticky_headers/sticky_headers.dart';
 import 'package:suxoy_zakon/api_master.dart';
 import 'package:suxoy_zakon/models/menu_item.dart';
+import 'package:suxoy_zakon/pages/search_page.dart';
 import 'package:suxoy_zakon/theme.dart';
 import 'package:suxoy_zakon/widgets/action_btn.dart';
 import 'package:suxoy_zakon/widgets/cart.dart';
@@ -118,7 +119,14 @@ class _ContentMainState extends State<ContentMain> {
                                     height: 12,
                                   ),
                                   CustomBtn(
-                                    onTap: () {},
+                                    onTap: () {
+                                      Navigator.push(
+                                        context,
+                                        CupertinoPageRoute(
+                                          builder: (context) => SearchPage(),
+                                        ),
+                                      );
+                                    },
                                     height: 40,
                                     accentColor: const Color(0xFFF9F9F9),
                                     text: "найди себе блюдо",
@@ -139,7 +147,8 @@ class _ContentMainState extends State<ContentMain> {
                             ),
                             StickyHeader(
                               header: Container(
-                                padding: const EdgeInsets.symmetric(vertical: 12),
+                                padding:
+                                    const EdgeInsets.symmetric(vertical: 12),
                                 color: const Color(0xFFF9F9F9),
                                 child: CustomTabs(
                                   tabs: categoriesList,
@@ -148,7 +157,9 @@ class _ContentMainState extends State<ContentMain> {
                               ),
                               content: Column(
                                 children: [
-                                  const SizedBox(height: 20,),
+                                  const SizedBox(
+                                    height: 20,
+                                  ),
                                   StaticGrid(
                                     gap: 12,
                                     rowCrossAxisAlignment:
