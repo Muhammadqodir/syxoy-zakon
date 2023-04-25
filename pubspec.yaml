@@ -45,6 +45,7 @@ dependencies:
   shared_preferences: ^2.1.0
   flutter_bloc: ^8.1.2
   bloc: ^8.1.1
+  sticky_headers: ^0.3.0+2
 
 dev_dependencies:
   flutter_test:
