@@ -9,7 +9,6 @@ import 'package:suxoy_zakon/theme.dart';
 import 'package:suxoy_zakon/widgets/action_btn.dart';
 import 'package:suxoy_zakon/widgets/custom_btn.dart';
 import 'package:suxoy_zakon/widgets/custom_tabs.dart';
-import 'package:suxoy_zakon/widgets/dialogs.dart';
 import 'package:suxoy_zakon/widgets/menu_position.dart';
 import 'package:suxoy_zakon/widgets/static_grid.dart';
 
@@ -28,7 +27,7 @@ class _ContentMainState extends State<ContentMain> {
     _fillData();
   }
 
-  List<String> categoriesList = [];
+  List<String> categoriesList = ["Все"];
   List<MenuItem> items = [];
 
   _fillData() async {
@@ -36,125 +35,130 @@ class _ContentMainState extends State<ContentMain> {
 
     Response<List<String>> categories = await api.getCategories();
     if (categories.success) {
-      setState(() {
-        categoriesList = categories.data!;
-      });
-    } else {
-      Dialogs.showAlertDialog(
-        context,
-        "Failed",
-        categories.message,
-      );
+      categoriesList = ["Все"];
+      categoriesList.addAll(categories.data!);
     }
 
     Response<List<MenuItem>> menuRes = await api.getAllMenu();
     if (menuRes.success) {
       items = menuRes.data!;
-      setState(() {
-        
-      });
-    } else {
-      log(menuRes.message);
     }
+    setState(() {});
   }
 
   @override
   Widget build(BuildContext context) {
-    return ListView(
-      padding: EdgeInsets.zero,
-      children: [
-        Stack(
-          children: [
-            getBgCover(),
-            SafeArea(
-              child: Column(
-                children: [
-                  Padding(
-                    padding: const EdgeInsets.symmetric(horizontal: 32),
-                    child: Column(
-                      children: [
-                        Row(
-                          crossAxisAlignment: CrossAxisAlignment.end,
-                          mainAxisAlignment: MainAxisAlignment.end,
-                          children: [
-                            ActionBtn(
-                              onTap: () {},
-                              accentColor:
-                                  Theme.of(context).scaffoldBackgroundColor,
-                              icon: SvgPicture.asset(
-                                "assets/cart.svg",
-                                width: 30,
-                              ),
+    return CustomScrollView(
+      physics: const BouncingScrollPhysics(
+        parent: AlwaysScrollableScrollPhysics(),
+      ),
+      slivers: [
+        CupertinoSliverRefreshControl(
+          onRefresh: () async {
+            _fillData();
+          },
+        ),
+        SliverList(
+          delegate: SliverChildListDelegate([
+            Column(
+              children: [
+                Stack(
+                  children: [
+                    getBgCover(),
+                    SafeArea(
+                      child: Column(
+                        children: [
+                          Padding(
+                            padding: const EdgeInsets.symmetric(horizontal: 32),
+                            child: Column(
+                              children: [
+                                Row(
+                                  crossAxisAlignment: CrossAxisAlignment.end,
+                                  mainAxisAlignment: MainAxisAlignment.end,
+                                  children: [
+                                    ActionBtn(
+                                      onTap: () {},
+                                      accentColor: Theme.of(context)
+                                          .scaffoldBackgroundColor,
+                                      icon: SvgPicture.asset(
+                                        "assets/cart.svg",
+                                        width: 30,
+                                      ),
+                                    ),
+                                  ],
+                                ),
+                                const SizedBox(
+                                  height: 52,
+                                ),
+                                Container(
+                                  height: 167,
+                                  width: double.infinity,
+                                  decoration: BoxDecoration(
+                                    color: Colors.white,
+                                    borderRadius: BorderRadius.circular(25),
+                                  ),
+                                  alignment: Alignment.center,
+                                  child: Text(
+                                    "Сухой ЗаконЪ",
+                                    style: Theme.of(context)
+                                        .textTheme
+                                        .headlineLarge!
+                                        .copyWith(fontSize: 26),
+                                  ),
+                                ),
+                                const SizedBox(
+                                  height: 12,
+                                ),
+                                CustomBtn(
+                                  onTap: () {},
+                                  height: 40,
+                                  accentColor: const Color(0xFFF9F9F9),
+                                  text: "найди себе блюдо",
+                                  alignment: MainAxisAlignment.start,
+                                  textStyle: Theme.of(context)
+                                      .textTheme
+                                      .bodyMedium!
+                                      .copyWith(
+                                          color: textColor.withOpacity(0.7)),
+                                  icon: Icon(
+                                    CupertinoIcons.search,
+                                    size: 20,
+                                    color: textColor.withOpacity(0.7),
+                                  ),
+                                ),
+                              ],
                             ),
-                          ],
-                        ),
-                        const SizedBox(
-                          height: 52,
-                        ),
-                        Container(
-                          height: 167,
-                          width: double.infinity,
-                          decoration: BoxDecoration(
-                            color: Colors.white,
-                            borderRadius: BorderRadius.circular(25),
                           ),
-                          alignment: Alignment.center,
-                          child: Text(
-                            "Сухой ЗаконЪ",
-                            style: Theme.of(context)
-                                .textTheme
-                                .headlineLarge!
-                                .copyWith(fontSize: 26),
+                          const SizedBox(
+                            height: 12,
                           ),
-                        ),
-                        const SizedBox(
-                          height: 12,
-                        ),
-                        CustomBtn(
-                          onTap: () {},
-                          height: 40,
-                          accentColor: const Color(0xFFF9F9F9),
-                          text: "найди себе блюдо",
-                          alignment: MainAxisAlignment.start,
-                          textStyle: Theme.of(context)
-                              .textTheme
-                              .bodyMedium!
-                              .copyWith(color: textColor.withOpacity(0.7)),
-                          icon: Icon(
-                            CupertinoIcons.search,
-                            size: 20,
-                            color: textColor.withOpacity(0.7),
+                          CustomTabs(
+                            tabs: categoriesList,
+                            onChanged: (index) {},
                           ),
-                        ),
-                      ],
+                          const SizedBox(
+                            height: 12,
+                          ),
+                          StaticGrid(
+                            gap: 12,
+                            rowCrossAxisAlignment: CrossAxisAlignment.start,
+                            padding: const EdgeInsets.symmetric(horizontal: 24),
+                            children: items
+                                .map(
+                                  (e) => MenuPosition(
+                                    position: e,
+                                  ),
+                                )
+                                .toList(),
+                          ),
+                        ],
+                      ),
                     ),
-                  ),
-                  const SizedBox(
-                    height: 12,
-                  ),
-                  CustomTabs(
-                    tabs: categoriesList,
-                    onChanged: (index) {},
-                  ),
-                  const SizedBox(
-                    height: 12,
-                  ),
-                  StaticGrid(
-                    gap: 12,
-                    rowCrossAxisAlignment: CrossAxisAlignment.start,
-                    padding: const EdgeInsets.symmetric(horizontal: 24),
-                    children: items
-                        .map(
-                          (e) => MenuPosition(
-                            position: e,
-                          ),
-                        )
-                        .toList(),
-                  ),
-                ],
-              ),
+                  ],
+                ),
+              ],
             ),
-          ],
+          ]),
         ),
       ],
     );
