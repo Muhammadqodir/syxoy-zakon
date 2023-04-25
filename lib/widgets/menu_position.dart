@@ -1,5 +1,9 @@
+import 'dart:developer';
+
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:suxoy_zakon/cubit/cart_cubit.dart';
 import 'package:suxoy_zakon/models/menu_item.dart';
 import 'package:suxoy_zakon/theme.dart';
 import 'package:suxoy_zakon/widgets/on_tap_scale.dart';
@@ -75,48 +79,40 @@ class _MenuPositionState extends State<MenuPosition> {
                     .copyWith(color: Colors.white, fontSize: 13),
               ),
             ),
-            Container(
-              padding: const EdgeInsets.all(12),
-              margin: const EdgeInsets.symmetric(horizontal: 12, vertical: 12),
-              decoration: BoxDecoration(
-                  color: Colors.white, borderRadius: BorderRadius.circular(16)),
-              child: Row(
-                children: [
-                  OnTapScaleAndFade(
-                    onTap: () {},
-                    child: const Icon(
-                      CupertinoIcons.minus,
-                      size: 18,
-                    ),
-                  ),
-                  Expanded(
-                    child: Row(
-                      mainAxisAlignment: MainAxisAlignment.center,
-                      children: [
-                        Text(
-                          widget.position.price,
-                          textAlign: TextAlign.center,
-                          style: Theme.of(context).textTheme.titleMedium,
-                        ),
-                        Text(
-                          "Р",
-                          textAlign: TextAlign.center,
-                          style: Theme.of(context)
-                              .textTheme
-                              .titleMedium!
-                              .copyWith(color: primaryColor),
-                        ),
-                      ],
-                    ),
-                  ),
-                  OnTapScaleAndFade(
-                    onTap: () {},
-                    child: const Icon(
+            OnTapScaleAndFade(
+              onTap: () {
+                context.read<CartCubit>().addToCart(widget.position);
+              },
+              child: Container(
+                padding: const EdgeInsets.all(12),
+                margin:
+                    const EdgeInsets.symmetric(horizontal: 12, vertical: 12),
+                decoration: BoxDecoration(
+                    color: Colors.white,
+                    borderRadius: BorderRadius.circular(16)),
+                child: Row(
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  crossAxisAlignment: CrossAxisAlignment.center,
+                  children: [
+                    const Icon(
                       CupertinoIcons.plus,
-                      size: 18,
+                      size: 14,
                     ),
-                  ),
-                ],
+                    Text(
+                      widget.position.price,
+                      textAlign: TextAlign.center,
+                      style: Theme.of(context).textTheme.titleMedium,
+                    ),
+                    Text(
+                      "Р",
+                      textAlign: TextAlign.center,
+                      style: Theme.of(context)
+                          .textTheme
+                          .titleMedium!
+                          .copyWith(color: primaryColor),
+                    ),
+                  ],
+                ),
               ),
             ),
           ],

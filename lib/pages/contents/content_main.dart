@@ -7,6 +7,7 @@ import 'package:suxoy_zakon/api_master.dart';
 import 'package:suxoy_zakon/models/menu_item.dart';
 import 'package:suxoy_zakon/theme.dart';
 import 'package:suxoy_zakon/widgets/action_btn.dart';
+import 'package:suxoy_zakon/widgets/cart.dart';
 import 'package:suxoy_zakon/widgets/custom_btn.dart';
 import 'package:suxoy_zakon/widgets/custom_tabs.dart';
 import 'package:suxoy_zakon/widgets/menu_position.dart';
@@ -76,15 +77,7 @@ class _ContentMainState extends State<ContentMain> {
                                   crossAxisAlignment: CrossAxisAlignment.end,
                                   mainAxisAlignment: MainAxisAlignment.end,
                                   children: [
-                                    ActionBtn(
-                                      onTap: () {},
-                                      accentColor: Theme.of(context)
-                                          .scaffoldBackgroundColor,
-                                      icon: SvgPicture.asset(
-                                        "assets/cart.svg",
-                                        width: 30,
-                                      ),
-                                    ),
+                                    CartWidget()
                                   ],
                                 ),
                                 const SizedBox(

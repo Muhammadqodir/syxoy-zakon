@@ -96,10 +96,12 @@ class Api {
             print(item["title"]);
             res.add(
               MenuItem(
-                  title: item["title"],
-                  desc: item["description"],
-                  imageUrl: item["pic"],
-                  price: item["price"]),
+                id: int.parse(item["id"]),
+                title: item["title"],
+                desc: item["description"],
+                imageUrl: item["pic"],
+                price: item["price"],
+              ),
             );
           }
           return Response(data: res);

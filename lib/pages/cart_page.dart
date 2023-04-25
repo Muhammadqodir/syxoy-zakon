@@ -15,6 +15,7 @@ class CartPage extends StatefulWidget {
   final List<CartItem> items = [
     CartItem(
       item: MenuItem(
+        id: 1,
         title: "Блинчик с ветчиной и сыром",
         desc: "Блинчик с ветчиной и сыром",
         imageUrl:
