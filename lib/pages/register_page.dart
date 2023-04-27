@@ -3,6 +3,7 @@ import 'dart:developer';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 import 'package:suxoy_zakon/forms/register_form.dart';
 import 'package:suxoy_zakon/models/form_data.dart';
 import 'package:suxoy_zakon/pages/confirmation_page.dart';
@@ -18,7 +19,9 @@ class RegisterPage extends StatefulWidget {
 }
 
 class _RegisterPageState extends State<RegisterPage> {
-  final RegisterForm form = RegisterForm(initPhone: "9682659013",);
+  final RegisterForm form = RegisterForm(
+    initPhone: "9682659013",
+  );
 
   FirebaseAuth auth = FirebaseAuth.instance;
   bool isLogin = false;

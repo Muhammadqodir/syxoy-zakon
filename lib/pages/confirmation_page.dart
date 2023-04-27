@@ -106,10 +106,10 @@ class _ConfirmationPageState extends State<ConfirmationPage> {
                         SharedPreferences preferences =
                             await SharedPreferences.getInstance();
 
-                        // preferences.setBool("isLogin", true);
-                        // preferences.setString("token", data.data!.token);
-                        // preferences.setString("phone", data.data!.phone);
-                        // preferences.setString("fullName", data.data!.fullName);
+                        preferences.setBool("isLogin", true);
+                        preferences.setString("token", data.data!.token);
+                        preferences.setString("phone", data.data!.phone);
+                        preferences.setString("fullName", data.data!.fullName);
                         Navigator.pushReplacement(
                           context,
                           CupertinoPageRoute(
