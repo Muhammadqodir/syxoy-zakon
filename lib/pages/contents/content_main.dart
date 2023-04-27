@@ -174,6 +174,9 @@ class _ContentMainState extends State<ContentMain> {
                                         )
                                         .toList(),
                                   ),
+                                  const SizedBox(
+                                    height: 20,
+                                  ),
                                 ],
                               ),
                             ),
