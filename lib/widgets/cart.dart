@@ -29,7 +29,7 @@ class CartWidget extends StatelessWidget {
             decoration: BoxDecoration(
                 color: Colors.red, borderRadius: BorderRadius.circular(10)),
             child: Text(
-              state.items.length.toString(),
+              state.getAllCount().toString(),
               style: Theme.of(context)
                   .textTheme
                   .titleMedium!
