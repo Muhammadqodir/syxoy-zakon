@@ -1,5 +1,7 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:suxoy_zakon/cubit/cart_cubit.dart';
 import 'package:suxoy_zakon/models/cart_item.dart';
 import 'package:suxoy_zakon/theme.dart';
 import 'package:suxoy_zakon/widgets/icon_btn.dart';
@@ -77,19 +79,26 @@ class _CartItemWidgetState extends State<CartItemWidget> {
               crossAxisAlignment: CrossAxisAlignment.center,
               mainAxisAlignment: MainAxisAlignment.center,
               children: [
-                const SizedBox(width: 4,),
+                const SizedBox(
+                  width: 4,
+                ),
                 IconBtn(
                   size: 30,
                   icon: const Icon(
                     CupertinoIcons.minus,
                     color: Colors.white,
                   ),
-                  onTap: () {},
+                  onTap: () {
+                    context.read<CartCubit>().decCart(widget.item.item);
+                  },
                 ),
                 Expanded(
                   child: Center(
                     child: Text(widget.item.count.toString(),
-                        style: Theme.of(context).textTheme.titleMedium!.copyWith(color: Colors.white)),
+                        style: Theme.of(context)
+                            .textTheme
+                            .titleMedium!
+                            .copyWith(color: Colors.white)),
                   ),
                 ),
                 IconBtn(
@@ -98,9 +107,13 @@ class _CartItemWidgetState extends State<CartItemWidget> {
                     CupertinoIcons.plus,
                     color: Colors.white,
                   ),
-                  onTap: () {},
+                  onTap: () {
+                    context.read<CartCubit>().addCart(widget.item.item);
+                  },
                 ),
-                const SizedBox(width: 4,),
+                const SizedBox(
+                  width: 4,
+                ),
               ],
             ),
           ),

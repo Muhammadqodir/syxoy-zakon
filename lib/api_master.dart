@@ -4,6 +4,7 @@ import 'package:firebase_auth/firebase_auth.dart';
 import 'package:http/http.dart' as http;
 import 'package:suxoy_zakon/models/menu_item.dart';
 import 'package:suxoy_zakon/models/user.dart';
+import 'package:suxoy_zakon/widgets/destination_selector.dart';
 
 const String baseUrl = "https://abduvoitov.uz/suxoy_zakon/api/";
 
@@ -68,6 +69,39 @@ class Api {
           List<String> res = [];
           for (dynamic item in data["data"]) {
             res.add(item.toString());
+          }
+          return Response(data: res);
+        } else {
+          return Response.failed(message: data["message"]);
+        }
+      } catch (e) {
+        return Response.failed(message: e.toString());
+      }
+    } else {
+      return Response.failed(
+        message:
+            "Request failed!\nStatus code:${response.statusCode}\n${response.body}",
+      );
+    }
+  }
+
+  Future<Response<List<Destination>>> getDeliveryDestinations() async {
+    var response = await get("getDestinations.php");
+    print(response.body);
+    if (response.statusCode == 200) {
+      try {
+        Map<String, dynamic> data = jsonDecode(response.body);
+        if (data["isSuccess"]) {
+          List<Destination> res = [];
+          for (Map<String, dynamic> item in data["data"]) {
+            print(item["title"]);
+            res.add(
+              Destination(
+                id: int.parse(item["id"]),
+                title: item["destination"],
+                price: int.parse(item["price"]),
+              ),
+            );
           }
           return Response(data: res);
         } else {

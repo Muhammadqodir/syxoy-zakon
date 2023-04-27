@@ -1,7 +1,9 @@
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:suxoy_zakon/cubit/cart_cubit.dart';
+import 'package:suxoy_zakon/pages/cart_page.dart';
 import 'package:suxoy_zakon/widgets/action_btn.dart';
 
 class CartWidget extends StatelessWidget {
@@ -13,7 +15,14 @@ class CartWidget extends StatelessWidget {
     return Stack(
       children: [
         ActionBtn(
-          onTap: () {},
+          onTap: () {
+            Navigator.push(
+              context,
+              CupertinoPageRoute(
+                builder: (context) => CartPage(),
+              ),
+            );
+          },
           accentColor: Theme.of(context).scaffoldBackgroundColor,
           icon: SvgPicture.asset(
             "assets/cart.svg",

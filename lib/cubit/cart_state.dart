@@ -21,4 +21,12 @@ class CartState {
     }
     return res;
   }
+
+  int getTotalPrice(){
+    int res = 0;
+    for (CartItem item in items) {
+      res += item.count * int.parse(item.item.price);
+    }
+    return res;
+  }
 }
