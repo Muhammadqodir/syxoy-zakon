@@ -2,6 +2,8 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_svg/svg.dart';
+import 'package:shared_preferences/shared_preferences.dart';
+import 'package:suxoy_zakon/api_master.dart';
 import 'package:suxoy_zakon/cubit/cart_cubit.dart';
 import 'package:suxoy_zakon/pages/cart_page.dart';
 import 'package:suxoy_zakon/widgets/action_btn.dart';
@@ -15,11 +17,16 @@ class CartWidget extends StatelessWidget {
     return Stack(
       children: [
         ActionBtn(
-          onTap: () {
+          onTap: () async {
+            String token =
+                (await SharedPreferences.getInstance()).getString("token") ??
+                    "undefined";
             Navigator.push(
               context,
               CupertinoPageRoute(
-                builder: (context) => CartPage(),
+                builder: (context) => CartPage(
+                  api: Api(token: token),
+                ),
               ),
             );
           },

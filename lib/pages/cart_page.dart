@@ -2,6 +2,7 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_svg/svg.dart';
+import 'package:suxoy_zakon/api_master.dart';
 import 'package:suxoy_zakon/cubit/cart_cubit.dart';
 import 'package:suxoy_zakon/theme.dart';
 import 'package:suxoy_zakon/widgets/action_btn.dart';
@@ -12,8 +13,9 @@ import 'package:suxoy_zakon/widgets/destination_selector.dart';
 import 'package:suxoy_zakon/widgets/recipe.dart';
 
 class CartPage extends StatefulWidget {
-  CartPage({super.key});
+  const CartPage({super.key, required this.api});
 
+  final Api api;
   @override
   State<CartPage> createState() => _CartPageState();
 }
@@ -107,7 +109,9 @@ class _CartPageState extends State<CartPage> {
                                     )
                                     .toList(),
                               ),
-                              const RecipeWidget()
+                              RecipeWidget(
+                                api: widget.api,
+                              )
                             ],
                           ),
                         )

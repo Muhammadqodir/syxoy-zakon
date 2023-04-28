@@ -3,14 +3,18 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:suxoy_zakon/api_master.dart';
 import 'package:suxoy_zakon/cubit/cart_cubit.dart';
+import 'package:suxoy_zakon/pages/orders_page.dart';
 import 'package:suxoy_zakon/theme.dart';
 import 'package:suxoy_zakon/widgets/custom_btn.dart';
+import 'package:suxoy_zakon/widgets/custom_text_field.dart';
 import 'package:suxoy_zakon/widgets/destination_selector.dart';
 import 'package:suxoy_zakon/widgets/dialogs.dart';
+import 'package:suxoy_zakon/widgets/payment_method_selector.dart';
 
 class RecipeWidget extends StatefulWidget {
-  const RecipeWidget({super.key});
+  const RecipeWidget({super.key, required this.api});
 
+  final Api api;
   @override
   State<RecipeWidget> createState() => _RecipeWidgetState();
 }
@@ -25,6 +29,13 @@ class _RecipeWidgetState extends State<RecipeWidget> {
   }
 
   int selectedDestination = -1;
+  bool isLoading = false;
+  List<String> paymentMethods = [
+    "Самовывоз",
+    "Курьеру наличными",
+    "Курьеру картой",
+  ];
+  int selectedPayment = -1;
 
   getDestinations() async {
     Response<List<Destination>> response =
@@ -36,6 +47,8 @@ class _RecipeWidgetState extends State<RecipeWidget> {
       Dialogs.showAlertDialog(context, "Error", response.message);
     }
   }
+
+  TextEditingController _noteController = TextEditingController();
 
   @override
   Widget build(BuildContext context) {
@@ -99,7 +112,23 @@ class _RecipeWidgetState extends State<RecipeWidget> {
                   const SizedBox(
                     height: 12,
                   ),
+                  CustomTextField(
+                    controller: _noteController,
+                    hint: "Примечания к заказу",
+                    baseColor: Colors.grey.withAlpha(50),
+                    onChanged: (v) {},
+                  ),
                   const Divider(),
+                  PaymentMethodSelector(
+                    baseColor: Colors.grey.withAlpha(50),
+                    onChanged: (index) {
+                      setState(() {
+                        selectedPayment = index;
+                      });
+                    },
+                    hint: "Способ оплаты",
+                    items: paymentMethods,
+                  ),
                   Row(
                     crossAxisAlignment: CrossAxisAlignment.center,
                     mainAxisAlignment: MainAxisAlignment.center,
@@ -128,7 +157,52 @@ class _RecipeWidgetState extends State<RecipeWidget> {
             ),
             CustomBtn(
               margin: const EdgeInsets.all(12),
-              onTap: () {},
+              isLogin: isLoading,
+              onTap: () async {
+                setState(() {
+                  isLoading = true;
+                });
+                if (state.items.isNotEmpty &&
+                    selectedDestination >= 0 &&
+                    selectedPayment >= 0) {
+                  Response<bool> response = await widget.api.newOrder(
+                      state.items,
+                      destinations[selectedDestination],
+                      state.getTotalPrice().toString(),
+                      paymentMethods[selectedPayment],
+                      _noteController.text);
+                  if (response.success) {
+                    context.read<CartCubit>().clearCart();
+                    setState(() {
+                      isLoading = false;
+                    });
+                    Navigator.pushReplacement(
+                      context,
+                      CupertinoPageRoute(
+                        builder: (context) => OrdersPage(api: widget.api),
+                      ),
+                    );
+                  } else {
+                    Dialogs.showAlertDialog(
+                      context,
+                      "Ошибка",
+                      response.message,
+                    );
+                    setState(() {
+                      isLoading = false;
+                    });
+                  }
+                } else {
+                  Dialogs.showAlertDialog(
+                    context,
+                    "Сухой законъ",
+                    "Заполните все поля",
+                  );
+                  setState(() {
+                    isLoading = false;
+                  });
+                }
+              },
               dropShadow: true,
               text: "Заказать",
             ),

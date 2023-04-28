@@ -36,4 +36,9 @@ class CartCubit extends Cubit<CartState> {
       }
     }
   }
+
+  void clearCart(){
+    List<CartItem> items = [];
+    emit(CartState(items));
+  }
 }
