@@ -55,7 +55,9 @@ class _MainPageState extends State<MainPage> {
     return Scaffold(
       backgroundColor: Color(0xFFF9F9F9),
       body: FadeIndexedStack(index: selectedIndex, children: [
-        const ContentMain(),
+        ContentMain(
+          isLogin: isLogin,
+        ),
         isLogin ? ContentProfile() : const NotLoggedIn(),
         isLogin ? ContentCart() : const NotLoggedIn(),
       ]),

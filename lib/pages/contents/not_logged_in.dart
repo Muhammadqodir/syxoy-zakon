@@ -1,5 +1,7 @@
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
+import 'package:suxoy_zakon/pages/register_page.dart';
 import 'package:suxoy_zakon/widgets/custom_btn.dart';
 
 class NotLoggedIn extends StatelessWidget {
@@ -23,7 +25,14 @@ class NotLoggedIn extends StatelessWidget {
             height: 12,
           ),
           CustomBtn(
-            onTap: () {},
+            onTap: () {
+              Navigator.pushReplacement(
+                context,
+                CupertinoPageRoute(
+                  builder: (context) => RegisterPage(),
+                ),
+              );
+            },
             text: "Авторизоваться",
             dropShadow: true,
             margin: const EdgeInsets.symmetric(horizontal: 24),

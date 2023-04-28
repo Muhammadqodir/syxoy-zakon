@@ -13,6 +13,7 @@ class CustomSelect extends StatefulWidget {
   final Function(int) onChanged;
   final Color baseColor;
   final EdgeInsets margin;
+  final String style;
   final EdgeInsets padding;
 
   const CustomSelect({
@@ -21,6 +22,7 @@ class CustomSelect extends StatefulWidget {
     required this.onChanged,
     required this.items,
     this.textAlign = TextAlign.start,
+    this.style = "large",
     this.baseColor = Colors.black12,
     this.borderRadius = const BorderRadius.all(Radius.circular(12)),
     this.margin = const EdgeInsets.all(0),
@@ -67,7 +69,9 @@ class _CustomSelectState extends State<CustomSelect> {
                     selectedIndex >= 0 && widget.items.isNotEmpty
                         ? widget.items[selectedIndex]
                         : widget.hint,
-                    style: Theme.of(context).textTheme.titleLarge,
+                    style: widget.style == "large"
+                        ? Theme.of(context).textTheme.titleLarge
+                        : Theme.of(context).textTheme.titleMedium,
                   ),
                 ),
                 widget.items.isEmpty

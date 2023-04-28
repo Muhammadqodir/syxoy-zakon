@@ -7,6 +7,7 @@ import 'package:shared_preferences/shared_preferences.dart';
 import 'package:suxoy_zakon/forms/register_form.dart';
 import 'package:suxoy_zakon/models/form_data.dart';
 import 'package:suxoy_zakon/pages/confirmation_page.dart';
+import 'package:suxoy_zakon/pages/main_page.dart';
 import 'package:suxoy_zakon/theme.dart';
 import 'package:suxoy_zakon/widgets/custom_btn.dart';
 import 'package:suxoy_zakon/widgets/dialogs.dart';
@@ -118,7 +119,14 @@ class _RegisterPageState extends State<RegisterPage> {
                 text: "Зарегистрироваться",
               ),
               CustomBtn(
-                onTap: () {},
+                onTap: () {
+                  Navigator.pushReplacement(
+                    context,
+                    CupertinoPageRoute(
+                      builder: (context) => const MainPage(),
+                    ),
+                  );
+                },
                 padding: const EdgeInsets.all(0),
                 accentColor: Theme.of(context).scaffoldBackgroundColor,
                 textColor: textColor.withOpacity(0.8),

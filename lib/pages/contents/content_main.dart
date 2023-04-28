@@ -16,7 +16,8 @@ import 'package:suxoy_zakon/widgets/menu_position.dart';
 import 'package:suxoy_zakon/widgets/static_grid.dart';
 
 class ContentMain extends StatefulWidget {
-  const ContentMain({super.key});
+  const ContentMain({super.key, required this.isLogin});
+  final bool isLogin;
 
   @override
   State<ContentMain> createState() => _ContentMainState();
@@ -92,8 +93,10 @@ class _ContentMainState extends State<ContentMain> {
                                   Row(
                                     crossAxisAlignment: CrossAxisAlignment.end,
                                     mainAxisAlignment: MainAxisAlignment.end,
-                                    children: const [
-                                      CartWidget(),
+                                    children: [
+                                      widget.isLogin
+                                          ? CartWidget()
+                                          : SizedBox(),
                                     ],
                                   ),
                                   const SizedBox(
