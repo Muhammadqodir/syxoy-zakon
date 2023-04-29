@@ -4,6 +4,7 @@ import 'package:firebase_auth/firebase_auth.dart';
 import 'package:http/http.dart' as http;
 import 'package:suxoy_zakon/models/cart_item.dart';
 import 'package:suxoy_zakon/models/menu_item.dart';
+import 'package:suxoy_zakon/models/order.dart';
 import 'package:suxoy_zakon/models/user.dart';
 import 'package:suxoy_zakon/widgets/destination_selector.dart';
 
@@ -193,6 +194,66 @@ class Api {
     }
   }
 
+  Future<Response<List<Order>>> getMyOrders() async {
+    String requestUrl = "getOrders.php?token=$token";
+    var response = await get(requestUrl);
+    print(response.body);
+    if (response.statusCode == 200) {
+      try {
+        Map<String, dynamic> data = jsonDecode(response.body);
+        if (data["isSuccess"]) {
+          List<Order> res = [];
+          for (Map<String, dynamic> order in data["data"]) {
+            print(order["status"]);
+            List<CartItem> cartItems = [];
+            for (Map<String, dynamic> position
+                in jsonDecode(order["positions"])) {
+              cartItems.add(
+                CartItem(
+                  item: MenuItem(
+                    id: position["item"]["id"],
+                    title: position["item"]["title"],
+                    desc: position["item"]["desc"],
+                    price: position["item"]["price"],
+                    imageUrl: position["item"]["imageUrl"],
+                  ),
+                  count: position["count"],
+                ),
+              );
+            }
+            res.add(
+              Order(
+                id: int.parse(order["id"]),
+                status: order["status"],
+                date: order["date"],
+                note: order["note"],
+                paymentMethod: order["payment_type"],
+                delivery: Destination(
+                  id: int.parse(order["destination"]["id"]),
+                  title: order["destination"]["destination"],
+                  price: int.parse(order["destination"]["price"]),
+                ),
+                price: order["totalPrice"],
+                items: cartItems,
+              ),
+            );
+          }
+          return Response(data: res);
+        } else {
+          return Response.failed(message: data["message"]);
+        }
+      } catch (e, s) {
+        print(s);
+        return Response.failed(message: e.toString());
+      }
+    } else {
+      return Response.failed(
+        message:
+            "Request failed!\nStatus code:${response.statusCode}\n${response.body}",
+      );
+    }
+  }
+
   Future<Response<bool>> newOrder(
     List<CartItem> items,
     Destination destination,
@@ -210,7 +271,7 @@ class Api {
     };
 
     var response = await post("newOrder.php", body);
-    if(response.statusCode == 200){
+    if (response.statusCode == 200) {
       try {
         Map<String, dynamic> data = jsonDecode(response.body);
         if (data["isSuccess"]) {
@@ -221,7 +282,7 @@ class Api {
       } catch (e) {
         return Response.failed(message: e.toString());
       }
-    }else{
+    } else {
       return Response.failed(
         message:
             "Request failed!\nStatus code:${response.statusCode}\n${response.body}",

@@ -1,8 +1,10 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:suxoy_zakon/api_master.dart';
+import 'package:suxoy_zakon/models/order.dart';
 import 'package:suxoy_zakon/widgets/action_btn.dart';
 import 'package:suxoy_zakon/widgets/custom_btn.dart';
+import 'package:suxoy_zakon/widgets/dialogs.dart';
 
 class OrdersPage extends StatefulWidget {
   const OrdersPage({super.key, required this.api});
@@ -14,6 +16,30 @@ class OrdersPage extends StatefulWidget {
 }
 
 class _OrdersPageState extends State<OrdersPage> {
+  List<Order> orders = [];
+  ScrollController _controller = ScrollController();
+
+  @override
+  void initState() {
+    super.initState();
+    _fillData();
+  }
+
+  _fillData() async {
+    Response<List<Order>> response = await widget.api.getMyOrders();
+    if (response.success) {
+      setState(() {
+        orders = response.data!;
+      });
+    } else {
+      Dialogs.showAlertDialog(
+        context,
+        "Ошибка",
+        response.message,
+      );
+    }
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -47,7 +73,8 @@ class _OrdersPageState extends State<OrdersPage> {
                             Expanded(
                               child: Text(
                                 "Заказы",
-                                style: Theme.of(context).textTheme.headlineLarge,
+                                style:
+                                    Theme.of(context).textTheme.headlineLarge,
                                 textAlign: TextAlign.center,
                               ),
                             ),
@@ -63,9 +90,28 @@ class _OrdersPageState extends State<OrdersPage> {
                     ),
                   ),
                   Expanded(
-                    child: ListView(
-                      padding: EdgeInsets.zero,
-                      children: [],
+                    child: CustomScrollView(
+                      controller: _controller,
+                      physics: const BouncingScrollPhysics(
+                        parent: AlwaysScrollableScrollPhysics(),
+                      ),
+                      slivers: [
+                        CupertinoSliverRefreshControl(
+                          onRefresh: () async {
+                            _fillData();
+                          },
+                        ),
+                        SliverList(
+                          delegate: SliverChildListDelegate(
+                            [
+                              Column(
+                                children:
+                                    orders.map((e) => Text(e.status)).toList(),
+                              )
+                            ],
+                          ),
+                        ),
+                      ],
                     ),
                   ),
                 ],
