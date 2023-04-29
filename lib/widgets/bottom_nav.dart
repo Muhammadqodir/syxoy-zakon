@@ -17,7 +17,7 @@ class CustomBottomNav extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Container(
-      height: 70,
+      height: 90,
       decoration: BoxDecoration(
         color: Colors.white,
         boxShadow: [

@@ -30,109 +30,115 @@ class _RegisterPageState extends State<RegisterPage> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      body: Center(
-        child: Padding(
-          padding: const EdgeInsets.all(24),
-          child: Column(
-            crossAxisAlignment: CrossAxisAlignment.center,
-            mainAxisAlignment: MainAxisAlignment.center,
-            children: [
-              Text(
-                "Добро пожаловать в\nприложение Сухой ЗаконЪ",
-                textAlign: TextAlign.center,
-                style: Theme.of(context)
-                    .textTheme
-                    .titleLarge!
-                    .copyWith(fontFamily: "MontserratBold"),
-              ),
-              const SizedBox(
-                height: 12,
-              ),
-              const SizedBox(
-                height: 12,
-              ),
-              form,
-              const SizedBox(
-                height: 12,
-              ),
-              Text(
-                "Мы позвоним или напишем вам, чтобы подтвердить ваш номер. Вы получите код. Пожалуйста, никому не сообщайте его!",
-                style: Theme.of(context).textTheme.bodyMedium!.copyWith(
-                      color: textColor.withOpacity(0.8),
-                    ),
-                textAlign: TextAlign.center,
-              ),
-              const SizedBox(
-                height: 12,
-              ),
-              CustomBtn(
-                isLogin: isLogin,
-                onTap: () async {
-                  setState(() {
-                    isLogin = true;
-                  });
-                  FormDataModel model = form.validateForm();
-                  if (model.isValid) {
-                    // Dialogs.showAlertDialog(context, "Phone", model.data);
-                    await FirebaseAuth.instance.verifyPhoneNumber(
-                      phoneNumber: model.data,
-                      verificationCompleted: (
-                        PhoneAuthCredential credential,
-                      ) {},
-                      verificationFailed: (FirebaseAuthException e) {
-                        setState(() {
-                          isLogin = false;
-                        });
-                        log("Authorized failed${e.message}");
-                        if (e.code == 'invalid-phone-number') {
-                          Dialogs.showAlertDialog(
+      body: SingleChildScrollView(
+        physics: AlwaysScrollableScrollPhysics(),
+        child: SafeArea(
+          child: Padding(
+            padding: const EdgeInsets.all(24),
+            child: Column(
+              crossAxisAlignment: CrossAxisAlignment.center,
+              mainAxisAlignment: MainAxisAlignment.center,
+              children: [
+                const SizedBox(
+                  height: 42,
+                ),
+                Text(
+                  "Добро пожаловать в\nприложение Сухой ЗаконЪ",
+                  textAlign: TextAlign.center,
+                  style: Theme.of(context)
+                      .textTheme
+                      .titleLarge!
+                      .copyWith(fontFamily: "MontserratBold"),
+                ),
+                const SizedBox(
+                  height: 12,
+                ),
+                const SizedBox(
+                  height: 12,
+                ),
+                form,
+                const SizedBox(
+                  height: 12,
+                ),
+                Text(
+                  "Мы позвоним или напишем вам, чтобы подтвердить ваш номер. Вы получите код. Пожалуйста, никому не сообщайте его!",
+                  style: Theme.of(context).textTheme.bodyMedium!.copyWith(
+                        color: textColor.withOpacity(0.8),
+                      ),
+                  textAlign: TextAlign.center,
+                ),
+                const SizedBox(
+                  height: 12,
+                ),
+                CustomBtn(
+                  isLogin: isLogin,
+                  onTap: () async {
+                    setState(() {
+                      isLogin = true;
+                    });
+                    FormDataModel model = form.validateForm();
+                    if (model.isValid) {
+                      // Dialogs.showAlertDialog(context, "Phone", model.data);
+                      await FirebaseAuth.instance.verifyPhoneNumber(
+                        phoneNumber: model.data,
+                        verificationCompleted: (
+                          PhoneAuthCredential credential,
+                        ) {},
+                        verificationFailed: (FirebaseAuthException e) {
+                          setState(() {
+                            isLogin = false;
+                          });
+                          log("Authorized failed${e.message}");
+                          if (e.code == 'invalid-phone-number') {
+                            Dialogs.showAlertDialog(
+                              context,
+                              "Ошибка",
+                              "Неверный формат номера телефона.",
+                            );
+                          } else {
+                            Dialogs.showAlertDialog(
+                                context, "Ошибка", e.message.toString());
+                          }
+                        },
+                        codeSent: (String verificationId, int? resendToken) {
+                          setState(() {
+                            isLogin = false;
+                          });
+                          Navigator.push(
                             context,
-                            "Ошибка",
-                            "Неверный формат номера телефона.",
-                          );
-                        } else {
-                          Dialogs.showAlertDialog(
-                              context, "Ошибка", e.message.toString());
-                        }
-                      },
-                      codeSent: (String verificationId, int? resendToken) {
-                        setState(() {
-                          isLogin = false;
-                        });
-                        Navigator.push(
-                          context,
-                          CupertinoPageRoute(
-                            builder: (context) => ConfirmationPage(
-                              auth: auth,
-                              verificationId: verificationId,
-                              phone: model.data,
+                            CupertinoPageRoute(
+                              builder: (context) => ConfirmationPage(
+                                auth: auth,
+                                verificationId: verificationId,
+                                phone: model.data,
+                              ),
                             ),
-                          ),
-                        );
-                      },
-                      codeAutoRetrievalTimeout: (String verificationId) {},
+                          );
+                        },
+                        codeAutoRetrievalTimeout: (String verificationId) {},
+                      );
+                    } else {
+                      Dialogs.showAlertDialog(context, "Ошибка", model.message);
+                    }
+                  },
+                  text: "Зарегистрироваться",
+                ),
+                CustomBtn(
+                  onTap: () {
+                    Navigator.pushReplacement(
+                      context,
+                      CupertinoPageRoute(
+                        builder: (context) => const MainPage(),
+                      ),
                     );
-                  } else {
-                    Dialogs.showAlertDialog(context, "Ошибка", model.message);
-                  }
-                },
-                text: "Зарегистрироваться",
-              ),
-              CustomBtn(
-                onTap: () {
-                  Navigator.pushReplacement(
-                    context,
-                    CupertinoPageRoute(
-                      builder: (context) => const MainPage(),
-                    ),
-                  );
-                },
-                padding: const EdgeInsets.all(0),
-                accentColor: Theme.of(context).scaffoldBackgroundColor,
-                textColor: textColor.withOpacity(0.8),
-                text: "Посмотреть меню",
-              ),
-            ],
+                  },
+                  padding: const EdgeInsets.all(0),
+                  accentColor: Theme.of(context).scaffoldBackgroundColor,
+                  textColor: textColor.withOpacity(0.8),
+                  text: "Посмотреть меню",
+                ),
+              ],
+            ),
           ),
         ),
       ),

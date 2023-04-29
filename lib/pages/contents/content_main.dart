@@ -83,6 +83,7 @@ class _ContentMainState extends State<ContentMain> {
                     children: [
                       getBgCover(),
                       SafeArea(
+                        top: true,
                         child: Column(
                           children: [
                             Padding(
@@ -90,6 +91,7 @@ class _ContentMainState extends State<ContentMain> {
                                   const EdgeInsets.symmetric(horizontal: 32),
                               child: Column(
                                 children: [
+                                  const SizedBox(height: 12,),
                                   Row(
                                     crossAxisAlignment: CrossAxisAlignment.end,
                                     mainAxisAlignment: MainAxisAlignment.end,
@@ -150,12 +152,22 @@ class _ContentMainState extends State<ContentMain> {
                             ),
                             StickyHeader(
                               header: Container(
-                                padding:
-                                    const EdgeInsets.symmetric(vertical: 12),
                                 color: const Color(0xFFF9F9F9),
-                                child: CustomTabs(
-                                  tabs: categoriesList,
-                                  onChanged: _getCategory,
+                                child: Column(
+                                  children: [
+                                    const SizedBox(height: 12,),
+                                    SizedBox(
+                                      height:
+                                          MediaQuery.of(context).padding.top,
+                                    ),
+                                    CustomTabs(
+                                      tabs: categoriesList,
+                                      onChanged: _getCategory,
+                                    ),
+                                    const SizedBox(
+                                      height: 12,
+                                    ),
+                                  ],
                                 ),
                               ),
                               content: Column(

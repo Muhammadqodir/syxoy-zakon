@@ -41,7 +41,6 @@ class _ProfilePageState extends State<ProfilePage> {
 
   @override
   Widget build(BuildContext context) {
-    CartState state = context.watch<CartCubit>().state;
     return Scaffold(
       backgroundColor: const Color(0xFFF9F9F9),
       body: Stack(
@@ -69,6 +68,16 @@ class _ProfilePageState extends State<ProfilePage> {
                                 CupertinoIcons.arrow_left,
                                 size: 20,
                               ),
+                            ),
+                            Expanded(
+                              child: Text(
+                                "Аккаунт",
+                                style: Theme.of(context).textTheme.headlineLarge,
+                                textAlign: TextAlign.center,
+                              ),
+                            ),
+                            const SizedBox(
+                              width: 60,
                             ),
                           ],
                         ),

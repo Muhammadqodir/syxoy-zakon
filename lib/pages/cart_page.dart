@@ -54,6 +54,16 @@ class _CartPageState extends State<CartPage> {
                                 size: 20,
                               ),
                             ),
+                            Expanded(
+                              child: Text(
+                                "Корзина",
+                                style: Theme.of(context).textTheme.headlineLarge,
+                                textAlign: TextAlign.center,
+                              ),
+                            ),
+                            const SizedBox(
+                              width: 60,
+                            ),
                           ],
                         ),
                         const SizedBox(
@@ -90,6 +100,7 @@ class _CartPageState extends State<CartPage> {
                   state.items.isNotEmpty
                       ? Expanded(
                           child: ListView(
+                            physics: AlwaysScrollableScrollPhysics(),
                             padding: EdgeInsets.zero,
                             children: [
                               Column(

@@ -1,6 +1,8 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:shared_preferences/shared_preferences.dart';
+import 'package:suxoy_zakon/api_master.dart';
+import 'package:suxoy_zakon/pages/orders_page.dart';
 import 'package:suxoy_zakon/pages/profile_page.dart';
 import 'package:suxoy_zakon/pages/register_page.dart';
 import 'package:suxoy_zakon/theme.dart';
@@ -82,7 +84,21 @@ class _ContentProfileState extends State<ContentProfile> {
                   height: 24,
                 ),
                 PrefsItem(
-                  onTap: () {},
+                  onTap: () async {
+                    SharedPreferences preferences =
+                        await SharedPreferences.getInstance();
+                    Navigator.push(
+                      context,
+                      CupertinoPageRoute(
+                        builder: (context) => OrdersPage(
+                          api: Api(
+                            token:
+                                preferences.getString("token") ?? "undefined",
+                          ),
+                        ),
+                      ),
+                    );
+                  },
                   icon: CupertinoIcons.cart,
                   title: "История заказов",
                   desc: "Посмотреть историю заказов",
