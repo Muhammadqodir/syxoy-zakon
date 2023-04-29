@@ -10,12 +10,14 @@ class StaticGrid extends StatelessWidget {
     this.columnCrossAxisAlignment = CrossAxisAlignment.center,
     this.rowMainAxisAlignment = MainAxisAlignment.start,
     this.rowCrossAxisAlignment = CrossAxisAlignment.center,
+    this.bgColor = Colors.transparent,
     required this.children,
   }) : super(key: key);
 
   final int columnCount;
   final double? gap;
   final EdgeInsets? padding;
+  final Color bgColor;
   final MainAxisAlignment columnMainAxisAlignment;
   final CrossAxisAlignment columnCrossAxisAlignment;
   final MainAxisAlignment rowMainAxisAlignment;
@@ -26,6 +28,7 @@ class StaticGrid extends StatelessWidget {
   Widget build(BuildContext context) {
     return Container(
       padding: padding,
+      color: bgColor,
       child: Column(
         crossAxisAlignment: columnCrossAxisAlignment,
         mainAxisAlignment: columnMainAxisAlignment,

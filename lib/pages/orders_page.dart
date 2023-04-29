@@ -5,6 +5,7 @@ import 'package:suxoy_zakon/models/order.dart';
 import 'package:suxoy_zakon/widgets/action_btn.dart';
 import 'package:suxoy_zakon/widgets/custom_btn.dart';
 import 'package:suxoy_zakon/widgets/dialogs.dart';
+import 'package:suxoy_zakon/widgets/order_widger.dart';
 
 class OrdersPage extends StatefulWidget {
   const OrdersPage({super.key, required this.api});
@@ -105,8 +106,14 @@ class _OrdersPageState extends State<OrdersPage> {
                           delegate: SliverChildListDelegate(
                             [
                               Column(
-                                children:
-                                    orders.map((e) => Text(e.status)).toList(),
+                                children: orders
+                                    .map(
+                                      (e) => OrderWidget(
+                                        order: e,
+                                        api: widget.api,
+                                      ),
+                                    )
+                                    .toList(),
                               )
                             ],
                           ),

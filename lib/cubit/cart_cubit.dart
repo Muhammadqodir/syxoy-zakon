@@ -22,6 +22,19 @@ class CartCubit extends Cubit<CartState> {
     items.add(CartItem(item: item, count: 1));
     emit(CartState(items));
   }
+  
+  void addCartWithCount(MenuItem item, int count) {
+    List<CartItem> items = List.from(state.items);
+    for (var element in items) {
+      if (element.item.id == item.id) {
+        element.count += count;
+        emit(CartState(items));
+        return;
+      }
+    }
+    items.add(CartItem(item: item, count: 1));
+    emit(CartState(items));
+  }
 
   void decCart(MenuItem item) {
     List<CartItem> items = List.from(state.items);
