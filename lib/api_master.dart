@@ -225,10 +225,34 @@ class Api {
     }
   }
 
-  Future<Response<Profile>> saveUser(String userName, String birthDay, String sex) async {
+  Future<Response<String>> getCallCentre() async {
+    String requestUrl = "getCallCentre.php";
+    var response = await get(requestUrl);
+    print(response.body);
+    if (response.statusCode == 200) {
+      try {
+        Map<String, dynamic> data = jsonDecode(response.body);
+        if (data["isSuccess"]) {
+          return Response(data: data["data"]);
+        } else {
+          return Response.failed(message: data["message"]);
+        }
+      } catch (e) {
+        return Response.failed(message: e.toString());
+      }
+    } else {
+      return Response.failed(
+        message:
+            "Request failed!\nStatus code:${response.statusCode}\n${response.body}",
+      );
+    }
+  }
+
+  Future<Response<Profile>> saveUser(
+      String userName, String birthDay, String sex) async {
     String requestUrl = "saveProfile.php";
     Map<String, String> body = {
-      "token": token??"undefined",
+      "token": token ?? "undefined",
       "userName": userName,
       "birthDay": birthDay,
       "sex": sex,

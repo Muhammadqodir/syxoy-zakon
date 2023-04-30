@@ -41,11 +41,15 @@ PODS:
     - GoogleUtilities/Logger
   - GTMSessionFetcher/Core (3.1.0)
   - PromisesObjC (2.2.0)
+  - shared_preferences_foundation (0.0.1):
+    - Flutter
+    - FlutterMacOS
 
 DEPENDENCIES:
   - firebase_auth (from `Flutter/ephemeral/.symlinks/plugins/firebase_auth/macos`)
   - firebase_core (from `Flutter/ephemeral/.symlinks/plugins/firebase_core/macos`)
   - FlutterMacOS (from `Flutter/ephemeral`)
+  - shared_preferences_foundation (from `Flutter/ephemeral/.symlinks/plugins/shared_preferences_foundation/macos`)
 
 SPEC REPOS:
   trunk:
@@ -64,6 +68,8 @@ EXTERNAL SOURCES:
     :path: Flutter/ephemeral/.symlinks/plugins/firebase_core/macos
   FlutterMacOS:
     :path: Flutter/ephemeral
+  shared_preferences_foundation:
+    :path: Flutter/ephemeral/.symlinks/plugins/shared_preferences_foundation/macos
 
 SPEC CHECKSUMS:
   Firebase: 0219acf760880eeec8ce479895bd7767466d9f81
@@ -76,7 +82,8 @@ SPEC CHECKSUMS:
   GoogleUtilities: 9aa0ad5a7bc171f8bae016300bfcfa3fb8425749
   GTMSessionFetcher: c9e714f7eec91a55641e2bab9f45fd83a219b882
   PromisesObjC: 09985d6d70fbe7878040aa746d78236e6946d2ef
+  shared_preferences_foundation: 986fc17f3d3251412d18b0265f9c64113a8c2472
 
 PODFILE CHECKSUM: 353c8bcc5d5b0994e508d035b5431cfe18c1dea7
 
-COCOAPODS: 1.11.3
+COCOAPODS: 1.12.1

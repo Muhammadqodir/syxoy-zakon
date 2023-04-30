@@ -8,9 +8,11 @@ import 'package:suxoy_zakon/models/order.dart';
 import 'package:suxoy_zakon/pages/cart_page.dart';
 import 'package:suxoy_zakon/theme.dart';
 import 'package:suxoy_zakon/widgets/custom_btn.dart';
+import 'package:suxoy_zakon/widgets/dialogs.dart';
 import 'package:suxoy_zakon/widgets/on_tap_scale.dart';
 import 'package:suxoy_zakon/widgets/order_position.dart';
 import 'package:suxoy_zakon/widgets/static_grid.dart';
+import 'package:url_launcher/url_launcher.dart' as UrlLauncher;
 
 class OrderWidget extends StatelessWidget {
   const OrderWidget({super.key, required this.order, required this.api});
@@ -318,7 +320,18 @@ class OrderWidget extends StatelessWidget {
                       text: "Повторить",
                     )
                   : CustomBtn(
-                      onTap: () {},
+                      onTap: () async {
+                        Response<String> response = await api.getCallCentre();
+                        if (response.success) {
+                          UrlLauncher.launchUrl(Uri.parse("tel://${response.data!}"));
+                        } else {
+                          Dialogs.showAlertDialog(
+                            context,
+                            "Ошибка",
+                            "Не удалось получить номер Call-центра",
+                          );
+                        }
+                      },
                       icon: const Icon(
                         CupertinoIcons.phone,
                         color: Colors.white,

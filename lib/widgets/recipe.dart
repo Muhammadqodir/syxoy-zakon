@@ -119,16 +119,16 @@ class _RecipeWidgetState extends State<RecipeWidget> {
                     onChanged: (v) {},
                   ),
                   const Divider(),
-                  PaymentMethodSelector(
-                    baseColor: Colors.grey.withAlpha(50),
-                    onChanged: (index) {
-                      setState(() {
-                        selectedPayment = index;
-                      });
-                    },
-                    hint: "Способ оплаты",
-                    items: paymentMethods,
-                  ),
+                  // PaymentMethodSelector(
+                  //   baseColor: Colors.grey.withAlpha(50),
+                  //   onChanged: (index) {
+                  //     setState(() {
+                  //       selectedPayment = index;
+                  //     });
+                  //   },
+                  //   hint: "Способ оплаты",
+                  //   items: paymentMethods,
+                  // ),
                   Row(
                     crossAxisAlignment: CrossAxisAlignment.center,
                     mainAxisAlignment: MainAxisAlignment.center,
@@ -163,13 +163,13 @@ class _RecipeWidgetState extends State<RecipeWidget> {
                   isLoading = true;
                 });
                 if (state.items.isNotEmpty &&
-                    selectedDestination >= 0 &&
-                    selectedPayment >= 0) {
+                    selectedDestination >= 0
+                    ) {
                   Response<bool> response = await widget.api.newOrder(
                       state.items,
                       destinations[selectedDestination],
                       state.getTotalPrice().toString(),
-                      paymentMethods[selectedPayment],
+                      "-",
                       _noteController.text);
                   if (response.success) {
                     context.read<CartCubit>().clearCart();

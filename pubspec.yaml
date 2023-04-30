@@ -47,6 +47,7 @@ dependencies:
   bloc: ^8.1.1
   sticky_headers: ^0.3.0+2
   change_app_package_name: ^1.1.0
+  url_launcher: ^6.1.10
 
 dev_dependencies:
   flutter_test:
