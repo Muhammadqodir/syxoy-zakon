@@ -1,4 +1,4 @@
-package com.example.suxoy_zakon
+package uz.mq.suxoy_zakon
 
 import io.flutter.embedding.android.FlutterActivity
 
