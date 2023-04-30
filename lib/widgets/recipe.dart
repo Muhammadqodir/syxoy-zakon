@@ -12,9 +12,10 @@ import 'package:suxoy_zakon/widgets/dialogs.dart';
 import 'package:suxoy_zakon/widgets/payment_method_selector.dart';
 
 class RecipeWidget extends StatefulWidget {
-  const RecipeWidget({super.key, required this.api});
+  const RecipeWidget({super.key, required this.api, this.pushReplace = false});
 
   final Api api;
+  final bool pushReplace;
   @override
   State<RecipeWidget> createState() => _RecipeWidgetState();
 }
@@ -162,9 +163,7 @@ class _RecipeWidgetState extends State<RecipeWidget> {
                 setState(() {
                   isLoading = true;
                 });
-                if (state.items.isNotEmpty &&
-                    selectedDestination >= 0
-                    ) {
+                if (state.items.isNotEmpty && selectedDestination >= 0) {
                   Response<bool> response = await widget.api.newOrder(
                       state.items,
                       destinations[selectedDestination],
@@ -176,12 +175,21 @@ class _RecipeWidgetState extends State<RecipeWidget> {
                     setState(() {
                       isLoading = false;
                     });
-                    Navigator.pushReplacement(
-                      context,
-                      CupertinoPageRoute(
-                        builder: (context) => OrdersPage(api: widget.api),
-                      ),
-                    );
+                    if (widget.pushReplace) {
+                      Navigator.pushReplacement(
+                        context,
+                        CupertinoPageRoute(
+                          builder: (context) => OrdersPage(api: widget.api),
+                        ),
+                      );
+                    } else {
+                      Navigator.push(
+                        context,
+                        CupertinoPageRoute(
+                          builder: (context) => OrdersPage(api: widget.api),
+                        ),
+                      );
+                    }
                   } else {
                     Dialogs.showAlertDialog(
                       context,

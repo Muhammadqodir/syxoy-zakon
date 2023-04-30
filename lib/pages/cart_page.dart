@@ -21,7 +21,6 @@ class CartPage extends StatefulWidget {
 }
 
 class _CartPageState extends State<CartPage> {
-  int count = 0;
 
   @override
   Widget build(BuildContext context) {
@@ -122,6 +121,7 @@ class _CartPageState extends State<CartPage> {
                               ),
                               RecipeWidget(
                                 api: widget.api,
+                                pushReplace: true,
                               )
                             ],
                           ),
