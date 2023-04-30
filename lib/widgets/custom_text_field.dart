@@ -16,6 +16,7 @@ class CustomTextField extends StatefulWidget {
   final Function(String) onChanged;
   final EdgeInsets margin;
   final EdgeInsets padding;
+  final bool enabled;
 
   const CustomTextField({
     this.hint = "",
@@ -27,6 +28,7 @@ class CustomTextField extends StatefulWidget {
     this.inputFormatter = const [],
     this.prefix,
     this.textStyle,
+    this.enabled = true,
     this.inputType = TextInputType.text,
     this.borderRadius = const BorderRadius.all(Radius.circular(12)),
     this.obscureText = false,
@@ -69,19 +71,23 @@ class _CustomTextFieldState extends State<CustomTextField> {
                   ],
                 ),
               Expanded(
-                child: TextField(
-                  obscureText: widget.obscureText,
-                  onChanged: widget.onChanged,
-                  inputFormatters: widget.inputFormatter,
-                  textAlign: widget.textAlign,
-                  style: widget.textStyle ?? Theme.of(context).textTheme.titleMedium,
-                  keyboardType: widget.inputType,
-                  controller: widget.controller,
-                  decoration: InputDecoration(
-                    contentPadding: const EdgeInsets.all(0),
-                    border: InputBorder.none,
-                    isDense: true,
-                    hintText: widget.hint,
+                child: Opacity(
+                  opacity: widget.enabled ? 1 : 0.5,
+                  child: TextField(
+                    obscureText: widget.obscureText,
+                    onChanged: widget.onChanged,
+                    enabled: widget.enabled,
+                    inputFormatters: widget.inputFormatter,
+                    textAlign: widget.textAlign,
+                    style: widget.textStyle ?? Theme.of(context).textTheme.titleMedium,
+                    keyboardType: widget.inputType,
+                    controller: widget.controller,
+                    decoration: InputDecoration(
+                      contentPadding: const EdgeInsets.all(0),
+                      border: InputBorder.none,
+                      isDense: true,
+                      hintText: widget.hint,
+                    ),
                   ),
                 ),
               ),

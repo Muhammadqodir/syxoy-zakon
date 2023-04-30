@@ -68,11 +68,18 @@ class _ContentProfileState extends State<ContentProfile> {
             child: Column(
               children: [
                 PrefsItem(
-                  onTap: () {
+                  onTap: () async {
+                    String token = (await SharedPreferences.getInstance())
+                            .getString("token") ??
+                        "undefined";
                     Navigator.push(
                       context,
                       CupertinoPageRoute(
-                        builder: (context) => ProfilePage(),
+                        builder: (context) => ProfilePage(
+                          api: Api(
+                            token: token,
+                          ),
+                        ),
                       ),
                     );
                   },

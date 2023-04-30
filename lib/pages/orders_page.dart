@@ -19,7 +19,7 @@ class OrdersPage extends StatefulWidget {
 class _OrdersPageState extends State<OrdersPage> {
   List<Order> orders = [];
   ScrollController _controller = ScrollController();
-
+  bool isLoading = true;
   @override
   void initState() {
     super.initState();
@@ -27,6 +27,9 @@ class _OrdersPageState extends State<OrdersPage> {
   }
 
   _fillData() async {
+    setState(() {
+      isLoading = true;
+    });
     Response<List<Order>> response = await widget.api.getMyOrders();
     if (response.success) {
       setState(() {
@@ -39,6 +42,9 @@ class _OrdersPageState extends State<OrdersPage> {
         response.message,
       );
     }
+    setState(() {
+      isLoading = false;
+    });
   }
 
   @override
@@ -91,35 +97,39 @@ class _OrdersPageState extends State<OrdersPage> {
                     ),
                   ),
                   Expanded(
-                    child: CustomScrollView(
-                      controller: _controller,
-                      physics: const BouncingScrollPhysics(
-                        parent: AlwaysScrollableScrollPhysics(),
-                      ),
-                      slivers: [
-                        CupertinoSliverRefreshControl(
-                          onRefresh: () async {
-                            _fillData();
-                          },
-                        ),
-                        SliverList(
-                          delegate: SliverChildListDelegate(
-                            [
-                              Column(
-                                children: orders
-                                    .map(
-                                      (e) => OrderWidget(
-                                        order: e,
-                                        api: widget.api,
-                                      ),
+                    child: isLoading
+                        ? const Center(
+                            child: CupertinoActivityIndicator(radius: 12,),
+                          )
+                        : CustomScrollView(
+                            controller: _controller,
+                            physics: const BouncingScrollPhysics(
+                              parent: AlwaysScrollableScrollPhysics(),
+                            ),
+                            slivers: [
+                              CupertinoSliverRefreshControl(
+                                onRefresh: () async {
+                                  _fillData();
+                                },
+                              ),
+                              SliverList(
+                                delegate: SliverChildListDelegate(
+                                  [
+                                    Column(
+                                      children: orders
+                                          .map(
+                                            (e) => OrderWidget(
+                                              order: e,
+                                              api: widget.api,
+                                            ),
+                                          )
+                                          .toList(),
                                     )
-                                    .toList(),
-                              )
+                                  ],
+                                ),
+                              ),
                             ],
                           ),
-                        ),
-                      ],
-                    ),
                   ),
                 ],
               ),

@@ -21,10 +21,10 @@ class RegisterForm extends StatefulWidget {
         .replaceAll(" ", "");
   }
 
-  FormDataModel validateForm(){
+  FormDataModel validateForm() {
     String phone = getPhone();
     log(phone.length.toString());
-    if(phone.length != 12){
+    if (phone.length != 12) {
       return FormDataModel.inValid(message: "Неверный формат номера телефона");
     }
     return FormDataModel(data: phone);
@@ -78,13 +78,13 @@ class _RegisterFormState extends State<RegisterForm> {
                   onChanged: (v) {},
                   hint: "Номер телефона",
                   inputFormatter: [
-                  MaskTextInputFormatter(
-                    mask: '+7 (###) ###-##-##',
-                    filter: {"#": RegExp(r'[0-9]')},
-                    type: MaskAutoCompletionType.lazy,
-                  )
-                ],
-                inputType: TextInputType.phone,
+                    MaskTextInputFormatter(
+                      mask: '+7 (###) ###-##-##',
+                      filter: {"#": RegExp(r'[0-9]')},
+                      type: MaskAutoCompletionType.lazy,
+                    )
+                  ],
+                  inputType: TextInputType.phone,
                   padding: const EdgeInsets.all(0),
                   baseColor: Theme.of(context).scaffoldBackgroundColor,
                 )

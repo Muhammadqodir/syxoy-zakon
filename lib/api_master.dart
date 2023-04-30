@@ -5,6 +5,7 @@ import 'package:http/http.dart' as http;
 import 'package:suxoy_zakon/models/cart_item.dart';
 import 'package:suxoy_zakon/models/menu_item.dart';
 import 'package:suxoy_zakon/models/order.dart';
+import 'package:suxoy_zakon/models/profile.dart';
 import 'package:suxoy_zakon/models/user.dart';
 import 'package:suxoy_zakon/widgets/destination_selector.dart';
 
@@ -180,6 +181,72 @@ class Api {
             );
           }
           return Response(data: res);
+        } else {
+          return Response.failed(message: data["message"]);
+        }
+      } catch (e) {
+        return Response.failed(message: e.toString());
+      }
+    } else {
+      return Response.failed(
+        message:
+            "Request failed!\nStatus code:${response.statusCode}\n${response.body}",
+      );
+    }
+  }
+
+  Future<Response<Profile>> getMyProfile() async {
+    String requestUrl = "getProfile.php?token=$token";
+    var response = await get(requestUrl);
+    print(response.body);
+    if (response.statusCode == 200) {
+      try {
+        Map<String, dynamic> data = jsonDecode(response.body);
+        if (data["isSuccess"]) {
+          return Response(
+            data: Profile(
+              phone: data["data"]["phone"],
+              birthDay: data["data"]["birth_day"],
+              name: data["data"]["fullName"],
+              sex: data["data"]["gender"],
+            ),
+          );
+        } else {
+          return Response.failed(message: data["message"]);
+        }
+      } catch (e) {
+        return Response.failed(message: e.toString());
+      }
+    } else {
+      return Response.failed(
+        message:
+            "Request failed!\nStatus code:${response.statusCode}\n${response.body}",
+      );
+    }
+  }
+
+  Future<Response<Profile>> saveUser(String userName, String birthDay, String sex) async {
+    String requestUrl = "saveProfile.php";
+    Map<String, String> body = {
+      "token": token??"undefined",
+      "userName": userName,
+      "birthDay": birthDay,
+      "sex": sex,
+    };
+    var response = await post(requestUrl, body);
+    print(response.body);
+    if (response.statusCode == 200) {
+      try {
+        Map<String, dynamic> data = jsonDecode(response.body);
+        if (data["isSuccess"]) {
+          return Response(
+            data: Profile(
+              phone: data["data"]["phone"],
+              birthDay: data["data"]["birth_day"],
+              name: data["data"]["fullName"],
+              sex: data["data"]["gender"],
+            ),
+          );
         } else {
           return Response.failed(message: data["message"]);
         }

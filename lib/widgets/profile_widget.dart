@@ -1,5 +1,7 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:shared_preferences/shared_preferences.dart';
+import 'package:suxoy_zakon/api_master.dart';
 import 'package:suxoy_zakon/pages/profile_page.dart';
 import 'package:suxoy_zakon/theme.dart';
 import 'package:suxoy_zakon/widgets/on_tap_scale.dart';
@@ -13,11 +15,18 @@ class ProfileWidget extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return OnTapScaleAndFade(
-      onTap: () {
+      onTap: () async {
+        String token =
+            (await SharedPreferences.getInstance()).getString("token") ??
+                "undefined";
         Navigator.push(
           context,
           CupertinoPageRoute(
-            builder: (context) => ProfilePage(),
+            builder: (context) => ProfilePage(
+              api: Api(
+                token: token,
+              ),
+            ),
           ),
         );
       },
@@ -65,13 +74,13 @@ class ProfileWidget extends StatelessWidget {
                         .titleMedium!
                         .copyWith(color: Colors.white),
                   ),
-                  Text(
-                    userName,
-                    style: Theme.of(context)
-                        .textTheme
-                        .titleSmall!
-                        .copyWith(color: Colors.white),
-                  ),
+                  // Text(
+                  //   userName,
+                  //   style: Theme.of(context)
+                  //       .textTheme
+                  //       .titleSmall!
+                  //       .copyWith(color: Colors.white),
+                  // ),
                 ],
               ),
             ),
