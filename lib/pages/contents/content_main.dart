@@ -185,6 +185,7 @@ class _ContentMainState extends State<ContentMain> {
                                         .map(
                                           (e) => MenuPosition(
                                             position: e,
+                                            api: api,
                                           ),
                                         )
                                         .toList(),

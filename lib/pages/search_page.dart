@@ -88,6 +88,7 @@ class _SearchPageState extends State<SearchPage> {
                             .map(
                               (e) => MenuPosition(
                                 position: e,
+                                api: api,
                               ),
                             )
                             .toList(),

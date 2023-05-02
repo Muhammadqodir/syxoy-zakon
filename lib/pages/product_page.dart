@@ -1,25 +1,29 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:intl/intl.dart';
+import 'package:suxoy_zakon/api_master.dart';
+import 'package:suxoy_zakon/cubit/cart_cubit.dart';
 import 'package:suxoy_zakon/models/menu_item.dart';
+import 'package:suxoy_zakon/pages/cart_page.dart';
 import 'package:suxoy_zakon/theme.dart';
 import 'package:suxoy_zakon/widgets/action_btn.dart';
 import 'package:suxoy_zakon/widgets/custom_btn.dart';
 import 'package:suxoy_zakon/widgets/icon_btn.dart';
 
 class ProductPage extends StatefulWidget {
-  const ProductPage({super.key, required this.position});
+  const ProductPage({super.key, required this.position, required this.api});
   final MenuItem position;
+  final Api api;
 
   @override
   State<ProductPage> createState() => _ProductPageState();
 }
 
 class _ProductPageState extends State<ProductPage> {
-  int count = 0;
-
   @override
   Widget build(BuildContext context) {
+    CartState state = context.watch<CartCubit>().state;
     return Scaffold(
         body: Stack(
       children: [
@@ -41,7 +45,9 @@ class _ProductPageState extends State<ProductPage> {
                               mainAxisAlignment: MainAxisAlignment.start,
                               children: [
                                 ActionBtn(
-                                  onTap: () {},
+                                  onTap: () {
+                                    Navigator.pop(context);
+                                  },
                                   accentColor:
                                       Theme.of(context).scaffoldBackgroundColor,
                                   icon: const Icon(
@@ -78,14 +84,15 @@ class _ProductPageState extends State<ProductPage> {
                                     icon: Icon(
                                       CupertinoIcons.minus,
                                       color:
-                                          count != 0 ? primaryColor : textColor,
+                                          state.getCount(widget.position.id) !=
+                                                  0
+                                              ? primaryColor
+                                              : textColor,
                                     ),
                                     onTap: () {
-                                      if (count > 0) {
-                                        setState(() {
-                                          count--;
-                                        });
-                                      }
+                                      context
+                                          .read<CartCubit>()
+                                          .decCart(widget.position);
                                     },
                                   ),
                                   Expanded(
@@ -99,7 +106,9 @@ class _ProductPageState extends State<ProductPage> {
                                             borderRadius:
                                                 BorderRadius.circular(25)),
                                         child: Text(
-                                          count.toString(),
+                                          state
+                                              .getCount(widget.position.id)
+                                              .toString(),
                                           style: Theme.of(context)
                                               .textTheme
                                               .titleLarge!
@@ -118,9 +127,9 @@ class _ProductPageState extends State<ProductPage> {
                                       color: primaryColor,
                                     ),
                                     onTap: () {
-                                      setState(() {
-                                        count++;
-                                      });
+                                      context
+                                          .read<CartCubit>()
+                                          .addCart(widget.position);
                                     },
                                   ),
                                 ],
@@ -130,7 +139,7 @@ class _ProductPageState extends State<ProductPage> {
                               height: 12,
                             ),
                             Text(
-                              "Блинчик с ветчиной и сыром",
+                              widget.position.title,
                               style: Theme.of(context).textTheme.headlineLarge,
                               textAlign: TextAlign.center,
                             ),
@@ -144,7 +153,9 @@ class _ProductPageState extends State<ProductPage> {
                                   widget.position.price.toString(),
                                   style: Theme.of(context).textTheme.titleLarge,
                                 ),
-                                const SizedBox(width: 2,),
+                                const SizedBox(
+                                  width: 2,
+                                ),
                                 Text(
                                   "Р",
                                   style: Theme.of(context)
@@ -175,7 +186,7 @@ class _ProductPageState extends State<ProductPage> {
                                     height: 12,
                                   ),
                                   Text(
-                                    "Ветчина куриная, плавленый сыр, зелень",
+                                    widget.position.desc,
                                     style:
                                         Theme.of(context).textTheme.bodyMedium,
                                   ),
@@ -195,32 +206,40 @@ class _ProductPageState extends State<ProductPage> {
             ),
           ],
         ),
-        Positioned(
-          bottom: 0,
-          left: 0,
-          right: 0,
-          child: SafeArea(
-            child: CustomBtn(
-              margin: const EdgeInsets.all(12),
-              onTap: () {},
-              dropShadow: true,
-              text: "Добавить в корзину ( ${priceString()} )",
+        if (state.items.isNotEmpty)
+          Positioned(
+            bottom: 0,
+            left: 0,
+            right: 0,
+            child: SafeArea(
+              child: CustomBtn(
+                margin: const EdgeInsets.all(12),
+                onTap: () {
+                  Navigator.push(
+                    context,
+                    CupertinoPageRoute(
+                      builder: (context) => CartPage(api: widget.api),
+                    ),
+                  );
+                },
+                dropShadow: true,
+                text: "В корзину (${state.getTotalPrice()}Р)",
+              ),
             ),
           ),
-        ),
       ],
     ));
   }
 
-  double getTotalPrice() {
+  double getTotalPrice(int count) {
     return (int.parse(widget.position.price) * count).toDouble();
   }
 
-  String priceString() {
+  String priceString(int count) {
     return NumberFormat.currency(
-      symbol: "р",
+      symbol: "Р",
       customPattern: '#,### \u00a4',
-    ).format(getTotalPrice());
+    ).format(getTotalPrice(count));
   }
 
   Widget getBgCover() {
@@ -244,8 +263,7 @@ class _ProductPageState extends State<ProductPage> {
         ),
         child: FittedBox(
           fit: BoxFit.cover,
-          child: Image.network(
-              'https://static1.squarespace.com/static/53b839afe4b07ea978436183/53bbeeb2e4b095b6a428a13e/5fd2570b51740e23cce97919/1678505081247/traditional-food-around-the-world-Travlinmad.jpg?format=1500w'),
+          child: Image.network(widget.position.imageUrl),
         ),
       ),
     );
