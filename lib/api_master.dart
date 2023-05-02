@@ -9,7 +9,7 @@ import 'package:suxoy_zakon/models/profile.dart';
 import 'package:suxoy_zakon/models/user.dart';
 import 'package:suxoy_zakon/widgets/destination_selector.dart';
 
-const String baseUrl = "https://abduvoitov.uz/suxoy_zakon/api/";
+const String baseUrl = "https://suxoy-zakon.ru//api/";
 
 class Api {
   String? token;

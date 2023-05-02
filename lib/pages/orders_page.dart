@@ -1,5 +1,6 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_svg/svg.dart';
 import 'package:suxoy_zakon/api_master.dart';
 import 'package:suxoy_zakon/models/order.dart';
 import 'package:suxoy_zakon/widgets/action_btn.dart';
@@ -99,37 +100,55 @@ class _OrdersPageState extends State<OrdersPage> {
                   Expanded(
                     child: isLoading
                         ? const Center(
-                            child: CupertinoActivityIndicator(radius: 12,),
-                          )
-                        : CustomScrollView(
-                            controller: _controller,
-                            physics: const BouncingScrollPhysics(
-                              parent: AlwaysScrollableScrollPhysics(),
+                            child: CupertinoActivityIndicator(
+                              radius: 12,
                             ),
-                            slivers: [
-                              CupertinoSliverRefreshControl(
-                                onRefresh: () async {
-                                  _fillData();
-                                },
-                              ),
-                              SliverList(
-                                delegate: SliverChildListDelegate(
-                                  [
-                                    Column(
-                                      children: orders
-                                          .map(
-                                            (e) => OrderWidget(
-                                              order: e,
-                                              api: widget.api,
-                                            ),
-                                          )
-                                          .toList(),
+                          )
+                        : orders.isEmpty
+                            ? Expanded(
+                                child: Column(
+                                  mainAxisAlignment: MainAxisAlignment.center,
+                                  crossAxisAlignment: CrossAxisAlignment.center,
+                                  children: [
+                                    SvgPicture.asset("assets/empty_cart.svg"),
+                                    Text(
+                                      "У вас ещё не было заказов",
+                                      style: Theme.of(context)
+                                          .textTheme
+                                          .titleLarge,
                                     )
                                   ],
                                 ),
+                              )
+                            : CustomScrollView(
+                                controller: _controller,
+                                physics: const BouncingScrollPhysics(
+                                  parent: AlwaysScrollableScrollPhysics(),
+                                ),
+                                slivers: [
+                                  CupertinoSliverRefreshControl(
+                                    onRefresh: () async {
+                                      _fillData();
+                                    },
+                                  ),
+                                  SliverList(
+                                    delegate: SliverChildListDelegate(
+                                      [
+                                        Column(
+                                          children: orders
+                                              .map(
+                                                (e) => OrderWidget(
+                                                  order: e,
+                                                  api: widget.api,
+                                                ),
+                                              )
+                                              .toList(),
+                                        )
+                                      ],
+                                    ),
+                                  ),
+                                ],
                               ),
-                            ],
-                          ),
                   ),
                 ],
               ),
