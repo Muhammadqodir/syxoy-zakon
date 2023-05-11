@@ -2,7 +2,7 @@
     package="uz.mq.suxoy_zakon">
     <uses-permission android:name="android.permission.INTERNET"></uses-permission>
    <application
-        android:label="suxoy_zakon"
+        android:label="Сухой ЗаконЪ"
         android:name="${applicationName}"
         android:icon="@drawable/logo">
         <activity

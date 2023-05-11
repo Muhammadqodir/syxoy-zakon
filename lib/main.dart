@@ -5,6 +5,7 @@ import 'package:shared_preferences/shared_preferences.dart';
 import 'package:suxoy_zakon/cubit/cart_cubit.dart';
 import 'package:suxoy_zakon/pages/confirmation_page.dart';
 import 'package:suxoy_zakon/pages/main_page.dart';
+import 'package:suxoy_zakon/pages/onboarding_page.dart';
 import 'package:suxoy_zakon/pages/register_page.dart';
 import 'package:suxoy_zakon/theme.dart';
 import 'firebase_options.dart';
@@ -25,7 +26,7 @@ void main() async {
 }
 
 class MyApp extends StatelessWidget {
-  MyApp({super.key, required this.isLogin});
+  const MyApp({super.key, required this.isLogin});
   final bool isLogin;
   @override
   Widget build(BuildContext context) {
@@ -36,7 +37,7 @@ class MyApp extends StatelessWidget {
         theme: lightTheme,
         themeMode: ThemeMode.light,
         debugShowCheckedModeBanner: false,
-        home: isLogin ? const MainPage() : RegisterPage(),
+        home: isLogin ? const MainPage() : const OnboardingPage(),
       ),
     );
   }

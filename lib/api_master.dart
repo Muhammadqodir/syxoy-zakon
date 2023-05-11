@@ -88,6 +88,28 @@ class Api {
     }
   }
 
+  Future<Response<bool>> deleteProfile() async {
+    var response = await get("deleteProfile.php?token=$token");
+    print(response.body);
+    if (response.statusCode == 200) {
+      try {
+        Map<String, dynamic> data = jsonDecode(response.body);
+        if (data["isSuccess"]) {
+          return Response(data: true);
+        } else {
+          return Response.failed(message: data["message"]);
+        }
+      } catch (e) {
+        return Response.failed(message: e.toString());
+      }
+    } else {
+      return Response.failed(
+        message:
+            "Request failed!\nStatus code:${response.statusCode}\n${response.body}",
+      );
+    }
+  }
+
   Future<Response<List<Destination>>> getDeliveryDestinations() async {
     var response = await get("getDestinations.php");
     print(response.body);
@@ -290,53 +312,61 @@ class Api {
     var response = await get(requestUrl);
     print(response.body);
     if (response.statusCode == 200) {
-      try {
-        Map<String, dynamic> data = jsonDecode(response.body);
-        if (data["isSuccess"]) {
-          List<Order> res = [];
-          for (Map<String, dynamic> order in data["data"]) {
-            print(order["status"]);
-            List<CartItem> cartItems = [];
-            for (Map<String, dynamic> position
-                in jsonDecode(order["positions"])) {
-              cartItems.add(
-                CartItem(
-                  item: MenuItem(
-                    id: position["item"]["id"],
-                    title: position["item"]["title"],
-                    desc: position["item"]["desc"],
-                    price: position["item"]["price"],
-                    imageUrl: position["item"]["imageUrl"],
-                  ),
-                  count: position["count"],
+      // try {
+      Map<String, dynamic> data = jsonDecode(response.body);
+      if (data["isSuccess"]) {
+        List<Order> res = [];
+        for (Map<String, dynamic> order in data["data"]) {
+          print(order["status"]);
+          List<CartItem> cartItems = [];
+          for (Map<String, dynamic> position
+              in jsonDecode(order["positions"])) {
+            cartItems.add(
+              CartItem(
+                item: MenuItem(
+                  id: position["item"]["id"],
+                  title: position["item"]["title"],
+                  desc: position["item"]["desc"],
+                  price: position["item"]["price"],
+                  imageUrl: position["item"]["imageUrl"],
                 ),
-              );
-            }
-            res.add(
-              Order(
-                id: int.parse(order["id"]),
-                status: order["status"],
-                date: order["date"],
-                note: order["note"],
-                paymentMethod: order["payment_type"],
-                delivery: Destination(
-                  id: int.parse(order["destination"]["id"]),
-                  title: order["destination"]["destination"],
-                  price: int.parse(order["destination"]["price"]),
-                ),
-                price: order["totalPrice"],
-                items: cartItems,
+                count: position["count"],
               ),
             );
           }
-          return Response(data: res);
-        } else {
-          return Response.failed(message: data["message"]);
+
+          Destination destination =
+              Destination(id: -1, title: "undefined", price: 0);
+
+          try {
+            destination = Destination(
+              id: int.parse(order["destination"]["id"]),
+              title: order["destination"]["destination"],
+              price: int.parse(order["destination"]["price"]),
+            );
+          } catch (e) {}
+
+          res.add(
+            Order(
+              id: int.parse(order["id"]),
+              status: order["status"],
+              date: order["date"],
+              note: order["note"],
+              paymentMethod: order["payment_type"],
+              delivery: destination,
+              price: order["totalPrice"],
+              items: cartItems,
+            ),
+          );
         }
-      } catch (e, s) {
-        print(s);
-        return Response.failed(message: e.toString());
+        return Response(data: res);
+      } else {
+        return Response.failed(message: data["message"]);
       }
+      // } catch (e, s) {
+      //   print(s);
+      //   return Response.failed(message: e.toString());
+      // }
     } else {
       return Response.failed(
         message:

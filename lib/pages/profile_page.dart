@@ -7,6 +7,8 @@ import 'package:shared_preferences/shared_preferences.dart';
 import 'package:suxoy_zakon/api_master.dart';
 import 'package:suxoy_zakon/cubit/cart_cubit.dart';
 import 'package:suxoy_zakon/models/profile.dart';
+import 'package:suxoy_zakon/pages/onboarding_page.dart';
+import 'package:suxoy_zakon/pages/register_page.dart';
 import 'package:suxoy_zakon/theme.dart';
 import 'package:suxoy_zakon/widgets/action_btn.dart';
 import 'package:suxoy_zakon/widgets/alt_btn.dart';
@@ -72,15 +74,39 @@ class _ProfilePageState extends State<ProfilePage> {
     setState(() {
       isLoading = true;
     });
-    if(_userNameContoller.text.isNotEmpty && _birthDayContoller.text.isNotEmpty){
-      Response<Profile> response = await widget.api.saveUser(_userNameContoller.text, _birthDayContoller.text, sex);
-      if(response.success){
+    if (_userNameContoller.text.isNotEmpty &&
+        _birthDayContoller.text.isNotEmpty) {
+      Response<Profile> response = await widget.api
+          .saveUser(_userNameContoller.text, _birthDayContoller.text, sex);
+      if (response.success) {
         Dialogs.showAlertDialog(context, "Сухой законъ", "Готово!");
-      }else{
+      } else {
         Dialogs.showAlertDialog(context, "Сухой законъ", response.message);
       }
-    }else{
+    } else {
       Dialogs.showAlertDialog(context, "Сухой законъ", "Заполните все поля");
+    }
+    setState(() {
+      isLoading = false;
+    });
+  }
+
+  _deleteProfile() async {
+    setState(() {
+      isLoading = true;
+    });
+    Response<bool> response = await widget.api.deleteProfile();
+    if (response.success) {
+      SharedPreferences preferences = await SharedPreferences.getInstance();
+      await preferences.setBool("isLogin", false);
+      Navigator.pushReplacement(
+        context,
+        CupertinoPageRoute(
+          builder: (context) => OnboardingPage(),
+        ),
+      );
+    }else{
+      Dialogs.showAlertDialog(context, "Ошибка", response.message);
     }
     setState(() {
       isLoading = false;
@@ -237,6 +263,7 @@ class _ProfilePageState extends State<ProfilePage> {
                           mainAxisAlignment: MainAxisAlignment.center,
                           children: [
                             CustomBtn(
+                              height: 50,
                               padding: const EdgeInsets.symmetric(
                                 horizontal: 24,
                               ),
@@ -249,7 +276,25 @@ class _ProfilePageState extends State<ProfilePage> {
                               text: "Сохранить",
                             ),
                           ],
-                        )
+                        ),
+                        const SizedBox(
+                          height: 12,
+                        ),
+                        CustomBtn(
+                          height: 50,
+                          padding: const EdgeInsets.symmetric(
+                            horizontal: 24,
+                          ),
+                          isLogin: isLoading,
+                          accentColor: Colors.transparent,
+                          textColor: Colors.red,
+                          onTap: _deleteProfile,
+                          icon: const Icon(
+                            CupertinoIcons.delete,
+                            color: Colors.red,
+                          ),
+                          text: "Удалить аккаунт",
+                        ),
                       ],
                     ),
                   ),

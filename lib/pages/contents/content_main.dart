@@ -132,7 +132,7 @@ class _ContentMainState extends State<ContentMain> {
                                         ),
                                       );
                                     },
-                                    height: 40,
+                                    height: 50,
                                     accentColor: const Color(0xFFF9F9F9),
                                     text: "найди себе блюдо",
                                     alignment: MainAxisAlignment.start,
