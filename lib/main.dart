@@ -31,7 +31,7 @@ class MyApp extends StatelessWidget {
       debugShowCheckedModeBanner: false,
       theme: lightTheme,
       themeMode: ThemeMode.light,
-      home: const UnauthorizedPage(),
+      home: const SmsVerificationPage(),
     );
   }
 }
