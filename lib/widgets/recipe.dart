@@ -32,11 +32,10 @@ class _RecipeWidgetState extends State<RecipeWidget> {
   int selectedDestination = -1;
   bool isLoading = false;
   List<String> paymentMethods = [
-    "Самовывоз",
     "Курьеру наличными",
     "Курьеру картой",
   ];
-  int selectedPayment = -1;
+  int selectedPayment = 0;
 
   getDestinations() async {
     Response<List<Destination>> response =
@@ -50,7 +49,10 @@ class _RecipeWidgetState extends State<RecipeWidget> {
   }
 
   TextEditingController _noteController = TextEditingController();
+  TextEditingController _addressController = TextEditingController();
+  TextEditingController _sdachaController = TextEditingController();
 
+  bool prepare = false;
   @override
   Widget build(BuildContext context) {
     CartState state = context.watch<CartCubit>().state;
@@ -68,6 +70,7 @@ class _RecipeWidgetState extends State<RecipeWidget> {
       child: SafeArea(
         top: false,
         child: Column(
+          crossAxisAlignment: CrossAxisAlignment.start,
           children: [
             const SizedBox(
               height: 12,
@@ -113,6 +116,74 @@ class _RecipeWidgetState extends State<RecipeWidget> {
                   const SizedBox(
                     height: 12,
                   ),
+                  if (destinations.isNotEmpty && selectedDestination >= 0)
+                    if (destinations[selectedDestination].title != "Самовывоз")
+                      CustomTextField(
+                        controller: _addressController,
+                        hint: "Уточните адресс",
+                        baseColor: Colors.grey.withAlpha(50),
+                        onChanged: (v) {},
+                      ),
+                  const SizedBox(
+                    height: 12,
+                  ),
+                  if (selectedDestination != -1)
+                    if (destinations[selectedDestination].title != "Самовывоз")
+                      Column(
+                        children: [
+                          PaymentMethodSelector(
+                            baseColor: Colors.grey.withAlpha(50),
+                            onChanged: (v) {
+                              setState(() {
+                                selectedPayment = v;
+                              });
+                            },
+                            hint: "Выберите споcоб оплаты",
+                            items: paymentMethods,
+                          ),
+                          if (selectedPayment == 0)
+                            Column(
+                              crossAxisAlignment: CrossAxisAlignment.start,
+                              children: [
+                                Row(
+                                  children: [
+                                    Text(
+                                      "Приготовить сдачу",
+                                      style: Theme.of(context)
+                                          .textTheme
+                                          .bodyMedium,
+                                    ),
+                                    const Expanded(
+                                      child: SizedBox(),
+                                    ),
+                                    CupertinoSwitch(
+                                      value: prepare,
+                                      onChanged: (v) {
+                                        setState(() {
+                                          prepare = v;
+                                          if (!v) {
+                                            _sdachaController.text = "";
+                                          }
+                                        });
+                                      },
+                                    ),
+                                  ],
+                                ),
+                                if (prepare)
+                                  CustomTextField(
+                                    controller: _sdachaController,
+                                    hint: "С какой суммы",
+                                    inputType: TextInputType.number,
+                                    baseColor: Colors.grey.withAlpha(50),
+                                    onChanged: (v) {},
+                                  ),
+                                const SizedBox(
+                                  height: 12,
+                                ),
+                              ],
+                            ),
+                        ],
+                      ),
                   CustomTextField(
                     controller: _noteController,
                     hint: "Примечания к заказу",
@@ -120,16 +191,6 @@ class _RecipeWidgetState extends State<RecipeWidget> {
                     onChanged: (v) {},
                   ),
                   const Divider(),
-                  // PaymentMethodSelector(
-                  //   baseColor: Colors.grey.withAlpha(50),
-                  //   onChanged: (index) {
-                  //     setState(() {
-                  //       selectedPayment = index;
-                  //     });
-                  //   },
-                  //   hint: "Способ оплаты",
-                  //   items: paymentMethods,
-                  // ),
                   Row(
                     crossAxisAlignment: CrossAxisAlignment.center,
                     mainAxisAlignment: MainAxisAlignment.center,
@@ -165,11 +226,14 @@ class _RecipeWidgetState extends State<RecipeWidget> {
                 });
                 if (state.items.isNotEmpty && selectedDestination >= 0) {
                   Response<bool> response = await widget.api.newOrder(
-                      state.items,
-                      destinations[selectedDestination],
-                      state.getTotalPrice().toString(),
-                      "-",
-                      _noteController.text);
+                    state.items,
+                    destinations[selectedDestination],
+                    state.getTotalPrice().toString(),
+                    paymentMethods[selectedPayment],
+                    _noteController.text,
+                    _addressController.text,
+                    _sdachaController.text,
+                  );
                   if (response.success) {
                     context.read<CartCubit>().clearCart();
                     setState(() {

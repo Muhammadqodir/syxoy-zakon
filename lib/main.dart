@@ -3,10 +3,8 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:suxoy_zakon/cubit/cart_cubit.dart';
-import 'package:suxoy_zakon/pages/confirmation_page.dart';
 import 'package:suxoy_zakon/pages/main_page.dart';
 import 'package:suxoy_zakon/pages/onboarding_page.dart';
-import 'package:suxoy_zakon/pages/register_page.dart';
 import 'package:suxoy_zakon/theme.dart';
 import 'firebase_options.dart';
 

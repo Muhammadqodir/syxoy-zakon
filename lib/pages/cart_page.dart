@@ -8,8 +8,6 @@ import 'package:suxoy_zakon/theme.dart';
 import 'package:suxoy_zakon/widgets/action_btn.dart';
 import 'package:suxoy_zakon/widgets/alt_btn.dart';
 import 'package:suxoy_zakon/widgets/cart_item_widget.dart';
-import 'package:suxoy_zakon/widgets/custom_btn.dart';
-import 'package:suxoy_zakon/widgets/destination_selector.dart';
 import 'package:suxoy_zakon/widgets/recipe.dart';
 
 class CartPage extends StatefulWidget {

@@ -1,6 +1,5 @@
 import 'dart:developer';
 
-import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
@@ -9,6 +8,7 @@ import 'package:shared_preferences/shared_preferences.dart';
 import 'package:suxoy_zakon/api_master.dart';
 import 'package:suxoy_zakon/models/user.dart';
 import 'package:suxoy_zakon/pages/main_page.dart';
+import 'package:suxoy_zakon/pages/register_page.dart';
 import 'package:suxoy_zakon/theme.dart';
 import 'package:suxoy_zakon/widgets/custom_btn.dart';
 import 'package:suxoy_zakon/widgets/dialogs.dart';
@@ -16,13 +16,11 @@ import 'package:suxoy_zakon/widgets/dialogs.dart';
 class ConfirmationPage extends StatefulWidget {
   ConfirmationPage({
     super.key,
-    required this.auth,
-    required this.verificationId,
+    required this.verificationCode,
     required this.phone,
   });
 
-  final FirebaseAuth auth;
-  final String verificationId;
+  final String verificationCode;
   final String phone;
 
   @override
@@ -73,7 +71,7 @@ class _ConfirmationPageState extends State<ConfirmationPage> {
                   child: PinCodeTextField(
                     controller: pinController,
                     appContext: context,
-                    length: 6,
+                    length: 4,
                     onChanged: (v) {},
                     pinTheme: PinTheme(
                       inactiveColor: primaryColor,
@@ -90,63 +88,46 @@ class _ConfirmationPageState extends State<ConfirmationPage> {
                   onTap: () async {
                     String pin = pinController.text;
                     log(pin);
-                    if (pin.length == 6) {
+                    if (pin == widget.verificationCode) {
                       setState(() {
                         isLoading = true;
                       });
-                      PhoneAuthCredential credential =
-                          PhoneAuthProvider.credential(
-                        verificationId: widget.verificationId,
-                        smsCode: pin,
-                      );
-                      try {
-                        UserCredential user =
-                            await widget.auth.signInWithCredential(credential);
-                        Response<UserModel> data =
-                            await Api().register(widget.phone);
-                        if (data.success) {
-                          SharedPreferences preferences =
-                              await SharedPreferences.getInstance();
+                      Response<UserModel> data =
+                          await Api().register(widget.phone);
+                      if (data.success) {
+                        SharedPreferences preferences =
+                            await SharedPreferences.getInstance();
 
-                          preferences.setBool("isLogin", true);
-                          preferences.setString("token", data.data!.token);
-                          preferences.setString("phone", data.data!.phone);
-                          preferences.setString(
-                              "fullName", data.data!.fullName);
-                          Navigator.pushReplacement(
-                            context,
-                            CupertinoPageRoute(
-                              builder: (context) => MainPage(),
-                            ),
-                          );
-                          // Dialogs.showAlertDialog(
-                          //   context,
-                          //   "Failed",
-                          //   data.data!.token ?? "data",
-                          // );
-                        } else {
-                          Dialogs.showAlertDialog(
-                            context,
-                            "Failed",
-                            data.message,
-                          );
-                        }
-                        setState(() {
-                          isLoading = true;
-                        });
-                      } catch (e) {
-                        print(e);
+                        preferences.setBool("isLogin", true);
+                        preferences.setString("token", data.data!.token);
+                        preferences.setString("phone", data.data!.phone);
+                        preferences.setString("fullName", data.data!.fullName);
+                        Navigator.pushReplacement(
+                          context,
+                          CupertinoPageRoute(
+                            builder: (context) => MainPage(),
+                          ),
+                        );
+                        // Dialogs.showAlertDialog(
+                        //   context,
+                        //   "Failed",
+                        //   data.data!.token ?? "data",
+                        // );
+                      } else {
                         Dialogs.showAlertDialog(
                           context,
                           "Failed",
-                          "Authorized failed",
+                          data.message,
                         );
                       }
+                      setState(() {
+                        isLoading = true;
+                      });
                     } else {
                       Dialogs.showAlertDialog(
                         context,
                         "Ошибка",
-                        "Введите код проверки",
+                        "Неверный код",
                       );
                     }
                   },
@@ -154,7 +135,12 @@ class _ConfirmationPageState extends State<ConfirmationPage> {
                 ),
                 CustomBtn(
                   onTap: () {
-                    Navigator.pop(context);
+                    Navigator.pushReplacement(
+                      context,
+                      CupertinoDialogRoute(
+                          builder: (context) => RegisterPage(),
+                          context: context),
+                    );
                   },
                   textColor: primaryColor,
                   accentColor: scaffoldBackgroundColor,

@@ -234,7 +234,7 @@ class _ProfilePageState extends State<ProfilePage> {
                             "Женшина": Padding(
                               padding: EdgeInsets.symmetric(
                                   horizontal: 20, vertical: 8),
-                              child: Text('Женшина'),
+                              child: Text('Женщина'),
                             )
                           },
                         ),

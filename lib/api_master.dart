@@ -1,6 +1,5 @@
 import 'dart:convert';
 
-import 'package:firebase_auth/firebase_auth.dart';
 import 'package:http/http.dart' as http;
 import 'package:suxoy_zakon/models/cart_item.dart';
 import 'package:suxoy_zakon/models/menu_item.dart';
@@ -30,6 +29,29 @@ class Api {
       body: body,
       headers: {"token": token ?? "undefined"},
     );
+  }
+
+  Future<Response<String>> sendCode(String phone) async {
+    var response = await post("sendCode.php", {"phone": phone});
+    print(response.body);
+    if (response.statusCode == 200) {
+      try {
+        Map<String, dynamic> data = jsonDecode(response.body);
+        print(data);
+        if (data["isSuccess"]) {
+          return Response(data: data["code"]);
+        } else {
+          return Response.failed(message: data["message"]);
+        }
+      } catch (e) {
+        return Response.failed(message: e.toString());
+      }
+    } else {
+      return Response.failed(
+        message:
+            "Request failed!\nStatus code:${response.statusCode}\n${response.body}",
+      );
+    }
   }
 
   Future<Response<UserModel>> register(String phone) async {
@@ -381,6 +403,8 @@ class Api {
     String totalPrice,
     String paymentMethod,
     String note,
+    String address,
+    String sdacha,
   ) async {
     Map<String, String> body = {
       "items": jsonEncode(items),
@@ -388,6 +412,8 @@ class Api {
       "totalPrice": totalPrice,
       "paymentMethod": paymentMethod,
       "note": note,
+      "address": address,
+      "sdacha": sdacha,
       "token": token ?? "undefined",
     };
 

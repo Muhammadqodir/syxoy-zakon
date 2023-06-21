@@ -1,9 +1,8 @@
 import 'dart:developer';
-
-import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:shared_preferences/shared_preferences.dart';
+import 'package:suxoy_zakon/api_master.dart';
 import 'package:suxoy_zakon/forms/register_form.dart';
 import 'package:suxoy_zakon/models/form_data.dart';
 import 'package:suxoy_zakon/pages/confirmation_page.dart';
@@ -24,7 +23,6 @@ class _RegisterPageState extends State<RegisterPage> {
     initPhone: "9682659013",
   );
 
-  FirebaseAuth auth = FirebaseAuth.instance;
   bool isLogin = false;
 
   @override
@@ -79,44 +77,24 @@ class _RegisterPageState extends State<RegisterPage> {
                     FormDataModel model = form.validateForm();
                     if (model.isValid) {
                       // Dialogs.showAlertDialog(context, "Phone", model.data);
-                      await FirebaseAuth.instance.verifyPhoneNumber(
-                        phoneNumber: model.data,
-                        verificationCompleted: (
-                          PhoneAuthCredential credential,
-                        ) {},
-                        verificationFailed: (FirebaseAuthException e) {
-                          setState(() {
-                            isLogin = false;
-                          });
-                          log("Authorized failed${e.message}");
-                          if (e.code == 'invalid-phone-number') {
-                            Dialogs.showAlertDialog(
-                              context,
-                              "Ошибка",
-                              "Неверный формат номера телефона.",
-                            );
-                          } else {
-                            Dialogs.showAlertDialog(
-                                context, "Ошибка", e.message.toString());
-                          }
-                        },
-                        codeSent: (String verificationId, int? resendToken) {
-                          setState(() {
-                            isLogin = false;
-                          });
-                          Navigator.push(
-                            context,
-                            CupertinoPageRoute(
-                              builder: (context) => ConfirmationPage(
-                                auth: auth,
-                                verificationId: verificationId,
-                                phone: model.data,
-                              ),
+                      Response<String> codeResponse =
+                          await Api(token: "").sendCode(model.data);
+                      if (codeResponse.success) {
+                        // ignore: use_build_context_synchronously
+                        Navigator.pushReplacement(
+                          context,
+                          CupertinoPageRoute(
+                            builder: (context) => ConfirmationPage(
+                              verificationCode: codeResponse.data ?? "",
+                              phone: model.data,
                             ),
-                          );
-                        },
-                        codeAutoRetrievalTimeout: (String verificationId) {},
-                      );
+                          ),
+                        );
+                      } else {
+                        // ignore: use_build_context_synchronously
+                        Dialogs.showAlertDialog(
+                            context, "Ошибка", codeResponse.message);
+                      }
                     } else {
                       Dialogs.showAlertDialog(context, "Ошибка", model.message);
                     }
