@@ -53,15 +53,15 @@ class _ProfilePageState extends State<ProfilePage> {
       if (response.data!.name != "undefined") {
         _userNameContoller.text = response.data!.name;
       }
-      if (response.data!.birthDay != "undefined") {
-        _birthDayContoller.text = response.data!.birthDay;
-      }
+      // if (response.data!.birthDay != "undefined") {
+      //   _birthDayContoller.text = response.data!.birthDay;
+      // }
       if (response.data!.phone != "undefined") {
         _phoneNumberController.text = response.data!.phone;
       }
-      if (response.data!.sex != "undefined") {
-        sex = response.data!.sex;
-      }
+      // if (response.data!.sex != "undefined") {
+      //   sex = response.data!.sex;
+      // }
     } else {
       Dialogs.showAlertDialog(context, "Ошибка", response.message);
     }
@@ -74,10 +74,9 @@ class _ProfilePageState extends State<ProfilePage> {
     setState(() {
       isLoading = true;
     });
-    if (_userNameContoller.text.isNotEmpty &&
-        _birthDayContoller.text.isNotEmpty) {
+    if (_userNameContoller.text.isNotEmpty) {
       Response<Profile> response = await widget.api
-          .saveUser(_userNameContoller.text, _birthDayContoller.text, sex);
+          .saveUser(_userNameContoller.text, "undefined", "undefined");
       if (response.success) {
         Dialogs.showAlertDialog(context, "Сухой законъ", "Готово!");
       } else {
@@ -215,47 +214,47 @@ class _ProfilePageState extends State<ProfilePage> {
                         const SizedBox(
                           height: 12,
                         ),
-                        CupertinoSegmentedControl<String>(
-                          selectedColor: primaryColor,
-                          borderColor: primaryColor,
-                          padding: const EdgeInsets.symmetric(horizontal: 24),
-                          groupValue: sex,
-                          onValueChanged: (String value) {
-                            setState(() {
-                              sex = value;
-                            });
-                          },
-                          children: const <String, Widget>{
-                            "Мужчина": Padding(
-                              padding: EdgeInsets.symmetric(
-                                  horizontal: 20, vertical: 8),
-                              child: Text('Мужчина'),
-                            ),
-                            "Женшина": Padding(
-                              padding: EdgeInsets.symmetric(
-                                  horizontal: 20, vertical: 8),
-                              child: Text('Женщина'),
-                            )
-                          },
-                        ),
-                        const SizedBox(
-                          height: 12,
-                        ),
-                        CustomTextField(
-                          margin: EdgeInsets.symmetric(horizontal: 24),
-                          controller: _birthDayContoller,
-                          baseColor: Colors.black12.withAlpha(10),
-                          hint: "Дата рождения",
-                          inputType: TextInputType.number,
-                          inputFormatter: [
-                            MaskTextInputFormatter(
-                              mask: '##.##.####',
-                              filter: {"#": RegExp(r'[0-9]')},
-                              type: MaskAutoCompletionType.lazy,
-                            )
-                          ],
-                          onChanged: (v) {},
-                        ),
+                        // CupertinoSegmentedControl<String>(
+                        //   selectedColor: primaryColor,
+                        //   borderColor: primaryColor,
+                        //   padding: const EdgeInsets.symmetric(horizontal: 24),
+                        //   groupValue: sex,
+                        //   onValueChanged: (String value) {
+                        //     setState(() {
+                        //       sex = value;
+                        //     });
+                        //   },
+                        //   children: const <String, Widget>{
+                        //     "Мужчина": Padding(
+                        //       padding: EdgeInsets.symmetric(
+                        //           horizontal: 20, vertical: 8),
+                        //       child: Text('Мужчина'),
+                        //     ),
+                        //     "Женшина": Padding(
+                        //       padding: EdgeInsets.symmetric(
+                        //           horizontal: 20, vertical: 8),
+                        //       child: Text('Женщина'),
+                        //     )
+                        //   },
+                        // ),
+                        // const SizedBox(
+                        //   height: 12,
+                        // ),
+                        // CustomTextField(
+                        //   margin: EdgeInsets.symmetric(horizontal: 24),
+                        //   controller: _birthDayContoller,
+                        //   baseColor: Colors.black12.withAlpha(10),
+                        //   hint: "Дата рождения",
+                        //   inputType: TextInputType.number,
+                        //   inputFormatter: [
+                        //     MaskTextInputFormatter(
+                        //       mask: '##.##.####',
+                        //       filter: {"#": RegExp(r'[0-9]')},
+                        //       type: MaskAutoCompletionType.lazy,
+                        //     )
+                        //   ],
+                        //   onChanged: (v) {},
+                        // ),
                         const SizedBox(
                           height: 12,
                         ),
