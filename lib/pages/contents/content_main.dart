@@ -222,7 +222,7 @@ class _ContentMainState extends State<ContentMain> {
         child: FittedBox(
           fit: BoxFit.cover,
           child: Image.network(
-            'https://abduvoitov.uz/suxoy_zakon/assets/header.jpeg',
+            'https://suxoyzakon.ru/assets/header.jpeg',
           ),
         ),
       ),

@@ -7,14 +7,6 @@ const lightGray = Color(0xFFcccccc);
 const textColor = Color(0xFF444444);
 
 ThemeData lightTheme = ThemeData(
-  tabBarTheme: const TabBarTheme(
-    indicator: UnderlineTabIndicator(
-      borderSide: BorderSide(
-        color: primaryColor,
-        width: 2,
-      ),
-    ),
-  ),
   brightness: Brightness.light,
   primaryColor: primaryColor,
   secondaryHeaderColor: colorAccent,
@@ -75,14 +67,6 @@ ThemeData lightTheme = ThemeData(
 );
 
 ThemeData darkTheme = ThemeData(
-  tabBarTheme: const TabBarTheme(
-    indicator: UnderlineTabIndicator(
-      borderSide: BorderSide(
-        color: primaryColor,
-        width: 2,
-      ),
-    ),
-  ),
   brightness: Brightness.dark,
   primaryColor: primaryColor,
   secondaryHeaderColor: HexColor.fromHex("#1E1E1E"),

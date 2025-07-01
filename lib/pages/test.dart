@@ -39,7 +39,7 @@ class _TestPageState extends State<TestPage> {
         ),
         content: Container(
           child: Image.network(
-            "https://abduvoitov.uz/suxoy_zakon/assets/header.jpeg", 
+            "https://suxoyzakon.ru/assets/header.jpeg", 
             fit: BoxFit.cover,
             width: double.infinity, 
             height: 200.0,
